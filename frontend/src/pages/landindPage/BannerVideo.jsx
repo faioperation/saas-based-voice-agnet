@@ -16,29 +16,29 @@ const BannerGraphic = () => {
         <motion.div
           animate={{ y: [0, -5, 0] }}
           transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-0 right-10 z-20 flex items-center gap-3 px-5 py-2.5 bg-[#08131A] border border-[#005260] rounded-xl shadow-lg"
+          className="absolute top-0 right-10 z-20 flex items-center gap-3 px-5 py-2.5 bg-white dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 rounded-xl shadow-sm dark:shadow-[0_4px_20px_rgba(0,0,0,0.5)]"
         >
           <div className="flex gap-1.5">
             <span
-              className="w-1.5 h-1.5 rounded-full bg-[#00D3F3] animate-pulse"
+              className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse"
               style={{ animationDelay: "0ms" }}
             ></span>
             <span
-              className="w-1.5 h-1.5 rounded-full bg-[#00D3F3] animate-pulse"
+              className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse"
               style={{ animationDelay: "150ms" }}
             ></span>
             <span
-              className="w-1.5 h-1.5 rounded-full bg-[#00D3F3] animate-pulse"
+              className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse"
               style={{ animationDelay: "300ms" }}
             ></span>
           </div>
-          <span className="text-sky-700 font-mono text-xs tracking-wide">
+          <span className="text-slate-600 dark:text-neutral-400 font-mono text-xs tracking-wide">
             AI processing order...
           </span>
         </motion.div>
 
         {/* Main Card */}
-        <div className="relative z-10 w-full bg-[#060B12]/95 backdrop-blur-xl border border-[#003B46] rounded-3xl p-5 md:p-7 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+        <div className="relative z-10 w-full bg-white dark:bg-neutral-900/95 backdrop-blur-xl border border-slate-200 dark:border-orange-500/20 rounded-3xl p-5 md:p-7 shadow-sm dark:shadow-[0_8px_30px_rgba(249,115,22,0.1)]">
           {/* Header (Mac buttons + title) */}
           <div className="flex justify-between items-start mb-6">
             <div className="flex items-start gap-4">
@@ -47,7 +47,7 @@ const BannerGraphic = () => {
                 <div className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]"></div>
                 <div className="w-2.5 h-2.5 rounded-full bg-[#27C93F]"></div>
               </div>
-              <div className="font-mono text-[11px] md:text-[13px] text-sky-600 leading-tight">
+              <div className="font-mono text-[11px] md:text-[13px] text-orange-400 leading-tight">
                 voiceai.live —<br />
                 call_agent.js
               </div>
@@ -64,14 +64,14 @@ const BannerGraphic = () => {
           </div>
 
           {/* Incoming Call Box */}
-          <div className="bg-[#0A131C] border border-[#003B46] rounded-2xl p-5 mb-5 relative overflow-hidden">
+          <div className="bg-slate-50 dark:bg-neutral-950 border border-slate-200 dark:border-neutral-800 rounded-2xl p-5 mb-5 relative overflow-hidden">
             {/* Header row */}
             <div className="flex justify-between items-start mb-6">
               <div className="flex items-center gap-3 md:gap-4">
                 {/* Avatar */}
-                <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-tr from-[#59168B] to-[#00D3F3] flex items-center justify-center shadow-lg relative overflow-hidden">
+                <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-orange-500/20 flex items-center justify-center shadow-sm relative overflow-hidden">
                   <svg
-                    className="w-7 h-7 text-white/40 mt-3"
+                    className="w-7 h-7 text-orange-500 mt-3"
                     viewBox="0 0 24 24"
                     fill="currentColor"
                   >
@@ -79,15 +79,15 @@ const BannerGraphic = () => {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="text-sky-950 font-bold text-base md:text-lg mb-0.5">
+                  <h3 className="text-slate-900 dark:text-white font-bold text-base md:text-lg mb-0.5">
                     Incoming Call
                   </h3>
-                  <p className="text-sky-700 text-xs md:text-sm font-medium">
+                  <p className="text-slate-600 dark:text-neutral-400 text-xs md:text-sm font-medium">
                     +880 1712-345678
                   </p>
                 </div>
               </div>
-              <div className="px-3 py-1 rounded-full border border-[#164627] bg-[#0A2316] text-[#27C93F] text-[11px] md:text-xs font-medium flex items-center gap-1.5">
+              <div className="px-3 py-1 rounded-full border border-emerald-200 bg-emerald-50 text-emerald-600 text-[11px] md:text-xs font-medium flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#27C93F]"></span>
                 Active
               </div>
@@ -106,12 +106,12 @@ const BannerGraphic = () => {
                       delay: i * 0.2,
                       ease: "easeInOut",
                     }}
-                    className="w-2 bg-[#00D3F3] rounded-full"
+                    className="w-2 bg-orange-500 rounded-full"
                     style={{ height: h }}
                   />
                 ))}
               </div>
-              <span className="text-sky-700 font-mono text-xs tracking-wider">
+              <span className="text-slate-600 dark:text-neutral-400 font-mono text-xs tracking-wider">
                 AI Speaking...
               </span>
             </div>
@@ -119,26 +119,26 @@ const BannerGraphic = () => {
             {/* Stats row */}
             <div className="flex justify-between items-end pr-2 md:pr-4">
               <div>
-                <div className="text-sky-950 font-bold text-2xl md:text-3xl leading-none mb-1.5">
+                <div className="text-slate-900 dark:text-white font-bold text-2xl md:text-3xl leading-none mb-1.5">
                   02:34
                 </div>
-                <div className="text-sky-600 text-[10px] md:text-[12px] font-medium">
+                <div className="text-slate-600 dark:text-neutral-400 text-[10px] md:text-[12px] font-medium">
                   Duration
                 </div>
               </div>
               <div>
-                <div className="text-[#00D3F3] font-bold text-2xl md:text-3xl leading-none mb-1.5">
+                <div className="text-orange-500 font-bold text-2xl md:text-3xl leading-none mb-1.5">
                   98%
                 </div>
-                <div className="text-sky-600 text-[10px] md:text-[12px] font-medium">
+                <div className="text-slate-600 dark:text-neutral-400 text-[10px] md:text-[12px] font-medium">
                   Confidence
                 </div>
               </div>
               <div className="flex flex-col items-center">
-                <div className="text-[#27C93F] font-bold text-2xl md:text-3xl leading-none mb-1.5">
+                <div className="text-emerald-500 font-bold text-2xl md:text-3xl leading-none mb-1.5">
                   ✓
                 </div>
-                <div className="text-sky-600 text-[10px] md:text-[12px] font-medium">
+                <div className="text-slate-600 dark:text-neutral-400 text-[10px] md:text-[12px] font-medium">
                   Order Ready
                 </div>
               </div>
@@ -147,27 +147,27 @@ const BannerGraphic = () => {
 
           {/* 3 Bottom Cards */}
           <div className="grid grid-cols-3 gap-3 md:gap-4">
-            <div className="bg-[#0A131C] border border-[#003B46]/60 rounded-xl p-3 md:p-4 flex flex-col items-center justify-center">
-              <span className="text-[#00D3F3] font-bold italic text-xl md:text-2xl mb-1">
+            <div className="bg-orange-500/10 border border-orange-500/20 rounded-xl p-3 md:p-4 flex flex-col items-center justify-center">
+              <span className="text-orange-500 font-bold italic text-xl md:text-2xl mb-1">
                 127
               </span>
-              <span className="text-sky-600 text-[10px] md:text-[11px] font-medium whitespace-nowrap">
+              <span className="text-slate-600 dark:text-neutral-400 text-[10px] md:text-[11px] font-medium whitespace-nowrap">
                 Today's Calls
               </span>
             </div>
-            <div className="bg-[#0A131C] border border-[#3A1E4B]/80 rounded-xl p-3 md:p-4 flex flex-col items-center justify-center">
-              <span className="text-[#AD46FF] font-bold italic text-xl md:text-2xl mb-1">
+            <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-3 md:p-4 flex flex-col items-center justify-center">
+              <span className="text-red-500 font-bold italic text-xl md:text-2xl mb-1">
                 94
               </span>
-              <span className="text-sky-600 text-[10px] md:text-[11px] font-medium">
+              <span className="text-slate-600 dark:text-neutral-400 text-[10px] md:text-[11px] font-medium">
                 Orders
               </span>
             </div>
-            <div className="bg-[#0A131C] border border-[#164627]/80 rounded-xl p-3 md:p-4 flex flex-col items-center justify-center">
-              <span className="text-[#27C93F] font-bold italic text-xl md:text-2xl mb-1">
+            <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-3 md:p-4 flex flex-col items-center justify-center">
+              <span className="text-green-500 font-bold italic text-xl md:text-2xl mb-1">
                 99.9%
               </span>
-              <span className="text-sky-600 text-[10px] md:text-[11px] font-medium">
+              <span className="text-slate-600 dark:text-neutral-400 text-[10px] md:text-[11px] font-medium">
                 Uptime
               </span>
             </div>
@@ -185,12 +185,12 @@ const BannerGraphic = () => {
           <motion.div
             animate={{ y: [0, -12, 0] }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className="w-full h-full bg-[#0A0D14] border border-[#271E4B] rounded-2xl p-5 md:p-6 shadow-[0_30px_60px_rgba(0,0,0,0.8)]"
+            className="w-full h-full bg-white dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 rounded-2xl p-5 md:p-6 shadow-sm dark:shadow-[0_8px_30px_rgba(0,0,0,0.5)]"
           >
             <div className="flex gap-3 items-center mb-5">
-              <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center shrink-0">
+              <div className="w-8 h-8 rounded-lg bg-orange-500/20 flex items-center justify-center shrink-0">
                 <svg
-                  className="w-4 h-4 text-blue-600"
+                  className="w-4 h-4 text-orange-500"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                 >
@@ -198,10 +198,10 @@ const BannerGraphic = () => {
                 </svg>
               </div>
               <div>
-                <h4 className="text-sky-950 font-bold text-[13px] md:text-sm">
+                <h4 className="text-slate-900 dark:text-white font-bold text-[13px] md:text-sm">
                   Order Confirmed
                 </h4>
-                <p className="text-sky-700 text-[10px] md:text-[11px]">
+                <p className="text-slate-600 dark:text-neutral-400 text-[10px] md:text-[11px]">
                   Email sent to customer
                 </p>
               </div>
@@ -209,28 +209,28 @@ const BannerGraphic = () => {
 
             <div className="space-y-3 mb-4">
               <div className="flex justify-between text-xs md:text-[13px]">
-                <span className="text-sky-700 font-medium">2× Burger</span>
-                <span className="text-sky-950 font-semibold">£60</span>
+                <span className="text-slate-600 dark:text-neutral-400 font-medium">2× Burger</span>
+                <span className="text-slate-900 dark:text-white font-semibold">£60</span>
               </div>
-              <div className="w-full h-px bg-white/5"></div>
+              <div className="w-full h-px bg-slate-200 dark:bg-neutral-800"></div>
               <div className="flex justify-between text-xs md:text-[13px]">
-                <span className="text-sky-700 font-medium">1× Pizza</span>
-                <span className="text-sky-950 font-semibold">£40</span>
+                <span className="text-slate-600 dark:text-neutral-400 font-medium">1× Pizza</span>
+                <span className="text-slate-900 dark:text-white font-semibold">£40</span>
               </div>
-              <div className="w-full h-px bg-white/5"></div>
+              <div className="w-full h-px bg-slate-200 dark:bg-neutral-800"></div>
               <div className="flex justify-between text-xs md:text-[13px]">
-                <span className="text-sky-700 font-medium">1× Coke</span>
-                <span className="text-sky-950 font-semibold">£10</span>
+                <span className="text-slate-600 dark:text-neutral-400 font-medium">1× Coke</span>
+                <span className="text-slate-900 dark:text-white font-semibold">£10</span>
               </div>
             </div>
 
-            <div className="w-full h-px bg-white/10 mb-4"></div>
+            <div className="w-full h-px bg-slate-200 dark:bg-neutral-800 mb-4"></div>
 
             <div className="flex justify-between items-center">
-              <span className="text-[#00D3F3] font-bold text-sm md:text-base">
+              <span className="text-orange-500 font-bold text-sm md:text-base">
                 Total
               </span>
-              <span className="text-[#00D3F3] font-bold text-sm md:text-base">
+              <span className="text-orange-500 font-bold text-sm md:text-base">
                 £110
               </span>
             </div>

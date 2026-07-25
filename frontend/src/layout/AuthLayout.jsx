@@ -12,7 +12,7 @@ export default function AuthLayout() {
       
       {/* Logo */}
       <Link to="/" className="flex items-center gap-2 mb-6 cursor-pointer">
-        <Image src="/logo.png" alt="Calai" className="h-10" />
+        <Image src="/logo.png" alt="FireVoice" className="h-10" />
       </Link>
 
      

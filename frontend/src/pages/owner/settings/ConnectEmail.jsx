@@ -79,14 +79,14 @@ const ConnectEmail = () => {
 
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <h2 className="text-xl font-semibold text-sky-950 mb-1">
+      <h2 className="text-xl font-bold text-slate-800 mb-1">
         Connect email & number
       </h2>
-      <p className="text-sm text-sky-700 mb-8">
+      <p className="text-[14px] text-slate-500 mb-8">
         Manage your connected emails and phone numbers.
       </p>
 
-      <div className="bg-sky-50 p-6 rounded-xl border border-sky-200 mb-8">
+      <div className="bg-white p-6 md:p-8 rounded-[24px] border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] mb-8">
         <div className="flex flex-col gap-6 mb-8">
           <InputField
             label="Phone Number"
@@ -95,8 +95,8 @@ const ConnectEmail = () => {
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             readOnly={!isEditing || isPending}
-            labelClass="!text-sm !font-medium !text-sky-800"
-            inputClass={`!bg-sky-50 !border-sky-200 !rounded-full !px-5 !py-3.5 !text-sm ${!isEditing || isPending ? "!text-sky-600 cursor-default" : "!text-sky-950"} placeholder:!text-sky-500 focus:!outline-none focus:!border-blue-500/50`}
+            labelClass="!text-[14px] !font-medium !text-slate-700"
+            inputClass={`!bg-slate-50 !border-slate-200 !rounded-[12px] !px-5 !py-3.5 !text-[14.5px] ${!isEditing || isPending ? "!text-slate-500 cursor-default opacity-80" : "!text-slate-800 !bg-white hover:!border-sky-300"} placeholder:!text-slate-400 focus:!outline-none focus:!border-sky-500 focus:!ring-1 focus:!ring-sky-500 !shadow-sm transition-all`}
           />
           <InputField
             label="Email Address"
@@ -104,32 +104,32 @@ const ConnectEmail = () => {
             placeholder="e.g. example@email.com"
             value={email}
             readOnly={true}
-            labelClass="!text-sm !font-medium !text-sky-800"
-            inputClass="!bg-sky-50 !border-sky-200 !rounded-full !px-5 !py-3.5 !text-sm !text-sky-600 cursor-not-allowed placeholder:!text-sky-500 focus:!outline-none focus:!border-transparent"
+            labelClass="!text-[14px] !font-medium !text-slate-700"
+            inputClass="!bg-slate-50 !border-slate-200 !rounded-[12px] !px-5 !py-3.5 !text-[14.5px] !text-slate-500 cursor-not-allowed placeholder:!text-slate-400 focus:!outline-none !shadow-sm opacity-80"
           />
         </div>
 
-        <div className="flex flex-col sm:flex-row justify-end gap-4 mt-8">
+        <div className="flex flex-col sm:flex-row justify-end gap-4 mt-8 pt-6 border-t border-slate-100">
           {!isEditing ? (
             <button
               onClick={() => setIsEditing(true)}
-              className="px-10 py-2.5 rounded-full border border-[#0F42FF] bg-sky-600 hover:bg-sky-700 text-sm text-sky-950 shadow-[0_0_15px_rgba(37,99,235,0.4)] hover:shadow-[0_0_20px_rgba(37,99,235,0.6)] transition-all cursor-pointer"
+              className="px-8 py-2.5 rounded-[10px] bg-white border border-slate-200 hover:border-sky-300 hover:bg-sky-50 text-slate-700 hover:text-sky-700 text-[14px] font-semibold shadow-sm transition-all cursor-pointer"
             >
-              Edit
+              Edit Details
             </button>
           ) : (
             <>
               <button
                 onClick={handleCancel}
                 disabled={isPending}
-                className="px-8 py-2.5 rounded-full border border-sky-200 text-sm font-medium text-sky-950 hover:bg-white/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                className="px-8 py-2.5 rounded-[10px] bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 text-[14px] font-semibold shadow-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSave}
                 disabled={isPending}
-                className="px-8 py-2.5 rounded-full border border-[#0F42FF] bg-sky-600 hover:bg-sky-700 text-sm text-sky-950 shadow-[0_0_15px_rgba(37,99,235,0.4)] hover:shadow-[0_0_20px_rgba(37,99,235,0.6)] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                className="px-8 py-2.5 rounded-[10px] bg-sky-600 hover:bg-sky-700 text-white text-[14px] font-semibold shadow-sm hover:shadow-md hover:shadow-sky-600/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               >
                 {isPending && <Loader2 className="w-4 h-4 animate-spin" />}
                 Save Changes

@@ -6,40 +6,40 @@ import Container from "@/components/Container";
 
 const featuresData = [
   {
-    icon: <Bot className="w-6 h-6 text-sky-950" />,
+    icon: <Bot className="w-6 h-6 text-orange-500" />,
     title: "AI Call Handling",
     description: "Answers calls instantly using AI voice agents.",
-    bg: "bg-[#9810FA]",
+    bg: "bg-orange-500/10",
   },
   {
-    icon: <FileText className="w-6 h-6 text-sky-950" />,
+    icon: <FileText className="w-6 h-6 text-red-500" />,
     title: "Smart Order Processing",
     description: "Automatically generates structured order summaries.",
-    bg: "bg-[#3B82F6]",
+    bg: "bg-red-500/10",
   },
   {
-    icon: <BarChart2 className="w-6 h-6 text-sky-950" />,
+    icon: <BarChart2 className="w-6 h-6 text-rose-500" />,
     title: "AI Usage Analytics",
     description: "Monitor call duration and usage in real-time.",
-    bg: "bg-[#06B6D4]",
+    bg: "bg-rose-500/10",
   },
   {
-    icon: <Mail className="w-6 h-6 text-sky-950" />,
+    icon: <Mail className="w-6 h-6 text-amber-500" />,
     title: "Automated Email Confirm",
     description: "Sent instant order confirmation emails to customers.",
-    bg: "bg-[#6366F1]",
+    bg: "bg-amber-500/10",
   },
   {
-    icon: <Lock className="w-6 h-6 text-sky-950" />,
+    icon: <Lock className="w-6 h-6 text-orange-400" />,
     title: "Kitchen Printing",
     description: "Orders confirmed arrive to your printer instantly",
-    bg: "bg-[#8B5CF6]",
+    bg: "bg-orange-400/10",
   },
   {
-    icon: <Clock className="w-6 h-6 text-sky-950" />,
+    icon: <Clock className="w-6 h-6 text-red-400" />,
     title: "24/7 Availability",
     description: "Never miss a customer inquiry again.",
-    bg: "bg-[#D946EF]",
+    bg: "bg-red-400/10",
   },
 ];
 
@@ -49,18 +49,18 @@ const FeatureCard = ({ feature, index }) => (
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: false, margin: "-50px" }}
     transition={{ duration: 0.5, delay: index * 0.1 }}
-    className="bg-gradient-to-t from-[#9810FA]/20 to-[#155DFC]/20 border border-[#0F42FF]/20 p-8 rounded-[24px] flex flex-col gap-4 transition-all duration-300 group hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
+    className="bg-white dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 p-8 rounded-[24px] flex flex-col gap-4 transition-all duration-300 group hover:-translate-y-1 hover:shadow-md hover:border-orange-500/50 shadow-sm dark:shadow-[0_8px_30px_rgba(0,0,0,0.5)]"
   >
     <div
-      className={`${feature.bg} w-12 h-12 rounded-2xl flex items-center justify-center mb-2 shadow-lg`}
+      className={`${feature.bg} w-12 h-12 rounded-2xl flex items-center justify-center mb-2 shadow-sm`}
     >
       {feature.icon}
     </div>
     <div className="flex flex-col gap-2">
-      <h3 className="text-sky-950 font-inter text-xl font-semibold tracking-tight">
+      <h3 className="text-slate-900 dark:text-white font-inter text-xl font-semibold tracking-tight">
         {feature.title}
       </h3>
-      <p className="text-[#99A1AF] font-inter text-[15px] leading-relaxed">
+      <p className="text-slate-600 dark:text-neutral-400 font-inter text-[15px] leading-relaxed">
         {feature.description}
       </p>
     </div>
@@ -69,7 +69,7 @@ const FeatureCard = ({ feature, index }) => (
 
 const Features = () => {
   return (
-    <section className="py-20 relative">
+    <section className="py-20 relative bg-white dark:bg-gradient-to-b dark:from-neutral-950 dark:to-[#140803]">
       <Container>
         <div className="mb-14">
           <Header

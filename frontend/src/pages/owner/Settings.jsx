@@ -17,17 +17,17 @@ const Settings = () => {
     location.pathname === path || location.pathname.startsWith(path + "/");
 
   return (
-    <div className="flex flex-col h-full min-h-[80vh]">
-      <div className="w-full border-b border-sky-200 mb-8 bg-sky-50">
-        <div className="flex flex-wrap gap-x-4 gap-y-2 md:gap-x-8 px-2 md:px-0 pt-2">
+    <div className="flex flex-col h-full min-h-[80vh] animate-in fade-in duration-500">
+      <div className="w-full mb-8 bg-white rounded-[20px] shadow-sm px-2 md:px-6 sticky top-0 z-10 border-b border-slate-200">
+        <div className="flex flex-nowrap overflow-x-auto gap-x-6 md:gap-x-8 pt-4 hide-scrollbar">
           {tabs.map((tab) => (
             <NavLink
               key={tab.path}
               to={tab.path}
-              className={`whitespace-nowrap flex items-center pb-3 text-[13px] md:text-sm font-medium transition-all border-b-2 ${
+              className={`whitespace-nowrap flex items-center pb-1 text-[13.5px] md:text-sm font-semibold transition-all border-b-[3px] ${
                 isActivePath(tab.path)
-                  ? "border-[#0F42FF] text-sky-950"
-                  : "border-transparent text-sky-700 hover:text-gray-900"
+                  ? "border-sky-500 text-sky-600"
+                  : "border-transparent text-slate-500 hover:text-slate-800 hover:border-slate-200"
               }`}
             >
               {tab.name}

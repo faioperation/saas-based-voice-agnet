@@ -14,7 +14,7 @@ import React from "react";
 
 const LandingPageLayout = () => {
   return (
-    <div className="bg-white">
+    <div className="bg-neutral-950">
       <Navbar />
       <Banner />
       <Stats />

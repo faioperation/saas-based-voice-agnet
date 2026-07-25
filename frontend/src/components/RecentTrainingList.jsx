@@ -66,15 +66,15 @@ const RecentTrainingList = () => {
 
   if (isLoading) {
     return (
-      <div className="mt-8 bg-sky-50 p-6 rounded-xl border border-sky-200 flex items-center justify-center min-h-[200px]">
-        <Loader2 className="animate-spin text-[#2563EB] w-8 h-8" />
+      <div className="mt-8 bg-white shadow-[0_4px_20px_rgba(14,165,233,0.08)] p-6 rounded-2xl border border-sky-100 flex items-center justify-center min-h-[200px]">
+        <Loader2 className="animate-spin text-sky-600 w-8 h-8" />
       </div>
     )
   }
 
   return (
     <>
-      <div className="mt-8 bg-sky-50 p-6 rounded-xl border border-sky-200 relative">
+      <div className="mt-8 bg-white shadow-[0_4px_20px_rgba(14,165,233,0.08)] p-6 rounded-2xl border border-sky-100 relative">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold text-sky-950">Recent Training</h2>
           {agents.length > 5 && (
@@ -126,7 +126,7 @@ const RecentTrainingList = () => {
                   </button>
 
                   {openDropdownId === agent.id && (
-                    <div className="absolute right-0 top-full mt-1 w-32 bg-[#1A1A1A] border border-sky-200 rounded-lg shadow-xl z-20 py-1 overflow-hidden">
+                    <div className="absolute right-0 top-full mt-1 w-32 bg-white border border-sky-200 rounded-lg shadow-xl z-20 py-1 overflow-hidden">
                       <button 
                         onClick={() => {
                           setAgentToDelete(agent)
@@ -151,7 +151,7 @@ const RecentTrainingList = () => {
       {/* Delete Confirmation Modal */}
       {agentToDelete && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/60 backdrop-blur-sm px-4">
-          <div className="bg-[#1A1A1A] border border-sky-200 p-6 rounded-2xl shadow-2xl max-w-sm w-full animate-in fade-in zoom-in duration-200">
+          <div className="bg-white border border-sky-200 p-6 rounded-2xl shadow-2xl max-w-sm w-full animate-in fade-in zoom-in duration-200">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center shrink-0">
                 <AlertTriangle className="w-5 h-5 text-red-500" />
@@ -167,7 +167,7 @@ const RecentTrainingList = () => {
               <button 
                 onClick={() => setAgentToDelete(null)}
                 disabled={deleteAgentMutation.isPending}
-                className="px-5 py-2.5 text-sm font-medium text-sky-950 bg-white/5 hover:bg-white/10 rounded-xl transition-colors cursor-pointer disabled:opacity-50"
+                className="px-5 py-2.5 text-sm font-medium text-sky-950 bg-sky-50 hover:bg-sky-100 rounded-xl transition-colors cursor-pointer disabled:opacity-50"
               >
                 Cancel
               </button>

@@ -10,16 +10,14 @@ const PlanCard = ({ plan, onUpgrade, isPendingUpgrade, isCurrentPlan }) => {
 
   return (
     <div
-      className={`bg-white border ${isPopular ? "border-blue-600/30 shadow-[0_0_20px_rgba(37,99,235,0.05)]" : "border-[#272727]"} p-6 rounded-[28px] flex flex-col gap-6 hover:border-[#333333] transition-all group h-full`}
+      className={`bg-white border ${isPopular ? "border-sky-300 shadow-md ring-1 ring-sky-100" : "border-sky-100 shadow-[0_2px_15px_rgba(0,0,0,0.02)]"} p-6 md:p-8 rounded-3xl flex flex-col gap-6 hover:border-sky-200 transition-all group h-full`}
     >
       <div className="flex flex-col gap-5">
         <div
-          className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-[13px] font-medium w-fit transition-colors ${isPopular ? "bg-blue-600/10 text-blue-400 border border-blue-600/40" : "bg-[#1A1A1A] text-sky-800 border border-[#272727]"}`}
+          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-[13px] font-medium w-fit bg-sky-50 text-sky-700"
         >
           {plan.name}
-          <Sparkles
-            className={`w-3.5 h-3.5 ${isPopular ? "text-blue-400" : "text-sky-700"}`}
-          />
+          <Sparkles className="w-3.5 h-3.5 text-sky-500" />
         </div>
 
         <div className="flex items-baseline gap-1.5">
@@ -29,25 +27,23 @@ const PlanCard = ({ plan, onUpgrade, isPendingUpgrade, isCurrentPlan }) => {
             </span>
           ) : (
             <>
-              <span className="text-sky-950 text-[32px] font-bold tracking-tight">
+              <span className="text-sky-950 text-[36px] font-bold tracking-tight">
                 £{plan.priceMonthly}
               </span>
-              <span className="text-sky-600 text-sm font-medium">/month</span>
+              <span className="text-sky-600 text-[14px] font-medium">/month</span>
             </>
           )}
         </div>
 
         <p className="text-sky-700 text-[13px] leading-relaxed min-h-[40px]">
-          {plan.callLimit > 0
-            ? `${plan.callLimit} minutes total usage`
-            : "AI Smarter Support"}
+          The {plan.name} plan for your business.
         </p>
       </div>
 
-      <div className="flex flex-col gap-4 mt-2 mb-6">
+      <div className="flex flex-col gap-3 mt-2 mb-6">
         {plan.features?.map((feature, idx) => (
-          <div key={idx} className="flex items-center gap-3">
-            <Check className="w-4 h-4 text-blue-500/80" />
+          <div key={idx} className="flex items-start gap-3">
+            <Check className="w-4 h-4 text-sky-500 shrink-0 mt-0.5" />
             <span className="text-[13px] text-sky-800">{feature}</span>
           </div>
         ))}
@@ -57,7 +53,7 @@ const PlanCard = ({ plan, onUpgrade, isPendingUpgrade, isCurrentPlan }) => {
         {isCurrentPlan ? (
           <button
             disabled
-            className="w-full py-2.5 rounded-lg border border-[#272727] bg-[#1A1A1A] text-sm text-sky-600 cursor-not-allowed flex items-center justify-center gap-2"
+            className="w-full py-3 rounded-[12px] border border-sky-100 bg-sky-50/50 text-[14.5px] font-semibold text-sky-400 cursor-not-allowed flex items-center justify-center gap-2"
           >
             Current Plan
           </button>
@@ -65,12 +61,12 @@ const PlanCard = ({ plan, onUpgrade, isPendingUpgrade, isCurrentPlan }) => {
           <button
             onClick={() => onUpgrade(plan)}
             disabled={isPendingUpgrade}
-            className="w-full py-2.5 rounded-lg border border-[#0F42FF] bg-sky-600 hover:bg-sky-700 text-sm text-sky-950 shadow-[0_0_15px_rgba(37,99,235,0.4)] hover:shadow-[0_0_20px_rgba(37,99,235,0.6)] transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            className={`w-full py-3 rounded-[12px] text-[14.5px] font-semibold transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 ${isPopular ? "bg-sky-500 hover:bg-sky-600 text-white shadow-sm hover:shadow-md hover:shadow-sky-500/20" : "bg-white border border-sky-200 hover:border-sky-300 hover:bg-sky-50 text-sky-700 shadow-sm"}`}
           >
             {isPendingUpgrade && <Loader2 className="w-4 h-4 animate-spin" />}
             {plan.name?.toLowerCase() === "enterprise"
               ? "Contact Us"
-              : "Upgrade plan"}
+              : "Upgrade Plan"}
           </button>
         )}
       </div>
@@ -157,10 +153,10 @@ const Plan = () => {
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 mb-12">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 gap-6 sm:gap-0">
         <div>
-          <h2 className="text-xl font-semibold text-sky-950 mb-1">
+          <h2 className="text-xl font-bold text-slate-800 mb-1">
             Choose Your Plan
           </h2>
-          <p className="text-sm text-sky-700">Manage your subscription plan</p>
+          <p className="text-[14px] text-slate-500">Manage your subscription plan</p>
         </div>
       </div>
 

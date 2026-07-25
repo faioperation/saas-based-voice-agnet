@@ -13,14 +13,16 @@ const StatCard = ({
   trend,
   trendText,
 }) => {
+  const isNegative = typeof trend === "string" && trend.startsWith("-");
+
   return (
-    <div className="relative overflow-hidden bg-sky-100 rounded-2xl p-3 border border-gray-800/50 flex flex-col h-full ">
+    <div className="relative overflow-hidden bg-white shadow-[0_4px_20px_rgba(14,165,233,0.08)] rounded-2xl p-4 border border-sky-100 flex flex-col h-full transition-all duration-300 hover:shadow-[0_8px_30px_rgba(14,165,233,0.12)] hover:-translate-y-1">
       {/* Header */}
       <div className="flex items-center gap-3 relative z-10">
         <div
-          className={`w-10 h-10 rounded-full flex items-center justify-center ${iconBg}`}
+          className={`w-12 h-12 rounded-xl flex items-center justify-center bg-sky-50 shadow-inner border border-sky-100`}
         >
-          <Icon icon={icon} className="text-sky-950 text-lg" />
+          <Icon icon={icon} className="text-sky-600 w-6 h-6" />
         </div>
         <span className="text-[15px] font-medium text-gray-900">{title}</span>
       </div>
@@ -33,7 +35,13 @@ const StatCard = ({
       {/* Trend */}
       <div className="flex items-center justify-between mt-auto text-[11px] text-sky-700 relative z-10">
         <span className="flex items-center gap-1 font-medium">
-          {trend} <Icon icon="lucide:arrow-up-right" className="text-[10px]" />
+          {trend}{" "}
+          <Icon
+            icon={
+              isNegative ? "lucide:arrow-down-right" : "lucide:arrow-up-right"
+            }
+            className={`text-[10px] ${isNegative ? "text-red-500" : "text-sky-950"}`}
+          />
         </span>
         <span className="font-medium">{trendText}</span>
       </div>
@@ -53,8 +61,8 @@ const StatCard = ({
               x2="0"
               y2="1"
             >
-              <stop offset="0%" stopColor="#2563EB" stopOpacity="0.3" />
-              <stop offset="100%" stopColor="#2563EB" stopOpacity="0" />
+              <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.2" />
+              <stop offset="100%" stopColor="#38bdf8" stopOpacity="0" />
             </linearGradient>
           </defs>
           <path
@@ -64,8 +72,8 @@ const StatCard = ({
           <path
             d="M0,45 C30,45 40,15 65,15 C90,15 100,40 130,40 C155,40 170,20 185,20 C195,20 198,30 200,30"
             fill="none"
-            stroke="#0F42FF"
-            strokeWidth="2"
+            stroke="#0ea5e9"
+            strokeWidth="2.5"
           />
         </svg>
       </div>

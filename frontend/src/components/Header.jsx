@@ -11,11 +11,11 @@ const Header = ({ titleText, subtitleText }) => {
       transition={{ duration: 0.6 }}
       className='text-center'
     >
-        <h3 className='text-3xl  font-inter font-semibold inline-block bg-gradient-to-r from-[#E9D4FF] to-[#FFFFFF] bg-clip-text text-transparent'>
+        <h3 className='text-3xl md:text-4xl font-inter font-bold text-slate-900 dark:text-white tracking-tight'>
           {titleText}
         </h3>
         {subtitleText && (
-          <p className='text-[#DBDBDB] mt-4 font-inter text-lg leading-relaxed'>
+          <p className='text-slate-600 dark:text-neutral-400 mt-4 font-inter text-[17px] leading-relaxed max-w-2xl mx-auto'>
             {subtitleText}
           </p>
         )}

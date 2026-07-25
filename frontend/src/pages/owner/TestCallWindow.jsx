@@ -167,15 +167,15 @@ const TestCallWindow = () => {
       </div>
 
       <div
-        className={`flex-1 bg-white rounded-3xl border border-sky-200 overflow-y-auto lg:overflow-hidden min-h-[500px] md:min-h-[600px] ${isCalling ? "flex flex-col lg:flex-row" : "relative flex flex-col items-center pt-6 md:pt-10 pb-10"}`}
+        className={`flex-1 bg-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-[24px] border border-slate-100 overflow-y-auto lg:overflow-hidden min-h-[500px] md:min-h-[600px] ${isCalling ? "flex flex-col lg:flex-row" : "relative flex flex-col items-center pt-6 md:pt-10 pb-10"}`}
       >
         {!isCalling ? (
           <>
             {/* --- IDLE STATE (Before Call) --- */}
             {/* Agent Selector Card */}
-            <div className="w-[90%] max-w-md bg-sky-50/90 backdrop-blur-xl border border-sky-200 rounded-2xl p-5 md:p-6 z-40 shadow-2xl flex-shrink-0">
-              <div className="flex items-center justify-center gap-3 mb-5">
-                <div className="w-9 h-9 rounded-full bg-green-500/10 flex items-center justify-center text-green-400">
+            <div className="w-[90%] max-w-md bg-white/90 backdrop-blur-2xl border border-slate-100 rounded-3xl p-6 z-40 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] flex-shrink-0">
+              <div className="flex items-center justify-center gap-3 mb-6">
+                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-500 shadow-lg shadow-emerald-500/20 flex items-center justify-center text-white">
                   <svg
                     width="18"
                     height="18"
@@ -189,7 +189,7 @@ const TestCallWindow = () => {
                     <path d="M12 2v20M17 5v14M22 10v4M7 5v14M2 10v4" />
                   </svg>
                 </div>
-                <h3 className="text-sky-950 font-bold text-lg md:text-xl">
+                <h3 className="text-slate-800 font-bold text-xl md:text-2xl tracking-tight">
                   Select Your AI Agent
                 </h3>
               </div>
@@ -216,22 +216,21 @@ const TestCallWindow = () => {
                     }
                   }}
                   className={`${isCalling || isLoadingAgents ? "opacity-50 pointer-events-none" : ""}`}
-                  inputClass="!w-full !bg-white !text-sky-950 !placeholder-white !border-sky-200 hover:!border-gray-600 focus:!border-green-500 !rounded-xl !px-5 !py-3.5 !text-[15px] !shadow-inner !transition-all"
-                  optionClass="!bg-white !text-sky-950 !border-sky-200"
-                  icon="!text-sky-600 !right-5"
+                  inputClass="!w-full !bg-slate-50/50 !text-slate-800 !placeholder-slate-400 !border-slate-200 hover:!bg-slate-50 hover:!border-sky-300 focus:!border-sky-500 !rounded-xl !px-5 !py-3.5 !text-[15px] !shadow-sm !transition-all"
+                  optionClass="!bg-white !text-slate-700 !border-slate-100 shadow-xl"
+                  icon="!text-slate-400 !right-5"
                 />
               </div>
             </div>
 
-            {/* Voice Orb Area */}
             <div className="relative my-auto z-10 py-6 md:py-0">
-              <motion.div className="w-48 h-48 md:w-64 md:h-64 rounded-full flex items-center justify-center relative z-10 overflow-hidden">
+              <motion.div className="w-48 h-48 md:w-64 md:h-64 rounded-full flex items-center justify-center relative z-10 overflow-hidden shadow-[0_0_80px_rgba(14,165,233,0.15)] ring-8 ring-slate-50">
                 <motion.img
                   src="/moon.png"
                   alt="Voice Orb"
-                  className="absolute inset-0 w-full h-full object-cover rounded-full"
+                  className="absolute inset-0 w-full h-full object-cover rounded-full opacity-90 mix-blend-multiply"
                 />
-                <span className="text-sky-950 text-lg md:text-xl font-bold relative z-20 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                <span className="text-white text-xl md:text-2xl font-black relative z-20 drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)] tracking-widest uppercase">
                   Ready
                 </span>
               </motion.div>
@@ -244,8 +243,8 @@ const TestCallWindow = () => {
                   onClick={startCall}
                   className={`group flex items-center gap-3 px-8 md:px-10 py-3 md:py-4 rounded-full font-bold text-base md:text-lg transition-all ${
                     !selectedAgentId
-                      ? "bg-[#262626] text-sky-700 hover:bg-[#333] border border-[#333]"
-                      : "bg-green-500 hover:bg-green-600 text-white shadow-[0_0_30px_rgba(34,197,94,0.4)] hover:scale-105 active:scale-95"
+                      ? "bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed"
+                      : "bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white shadow-[0_10px_30px_rgba(16,185,129,0.3)] hover:scale-[1.02] active:scale-95 border-b-[3px] border-teal-700"
                   }`}
                 >
                   <PhoneCall
@@ -270,12 +269,11 @@ const TestCallWindow = () => {
           <>
             {/* --- ACTIVE STATE (Split Screen) --- */}
 
-            {/* Left Column: Voice Orb & Controls */}
-            <div className="flex-1 relative flex flex-col items-center justify-between p-6 md:p-8 min-h-[350px] lg:min-h-[500px] shrink-0">
+            <div className="flex-1 relative flex flex-col items-center justify-between p-6 md:p-8 min-h-[350px] lg:min-h-[500px] shrink-0 bg-slate-50/30">
               {/* Timer Pill */}
-              <div className="flex items-center gap-2 px-4 py-1.5 bg-blue-500/10 border border-blue-500/20 rounded-full backdrop-blur-md z-20">
-                <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
-                <span className="text-blue-400 font-mono text-sm tracking-wider font-medium">
+              <div className="flex items-center gap-2 px-5 py-2 bg-white border border-slate-100 rounded-full shadow-sm z-20">
+                <div className="w-2.5 h-2.5 bg-rose-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(244,63,94,0.6)]" />
+                <span className="text-slate-700 font-mono text-[15px] tracking-wider font-semibold">
                   {formatTime(callDuration)}
                 </span>
               </div>
@@ -321,90 +319,87 @@ const TestCallWindow = () => {
                 </svg>
               </div>
 
-              {/* Voice Orb */}
               <div className="relative my-auto z-10">
                 <motion.div
                   animate={{ scale: 1 + volume / 800 }}
                   transition={{ duration: 0.1, ease: "easeInOut" }}
-                  className="w-48 h-48 md:w-56 md:h-56 rounded-full flex flex-col items-center justify-center relative overflow-hidden bg-green-900/40 border-[6px] border-green-500/20 shadow-[0_0_60px_rgba(16,185,129,0.15)]"
+                  className="w-48 h-48 md:w-56 md:h-56 rounded-full flex flex-col items-center justify-center relative overflow-hidden bg-white border-[8px] border-slate-50 shadow-[0_0_60px_rgba(16,185,129,0.15)] ring-1 ring-slate-100"
                 >
                   <motion.div
-                    className="absolute inset-0 bg-green-500/10"
-                    animate={{ opacity: volume > 10 ? [0.5, 1, 0.5] : 0.5 }}
+                    className="absolute inset-0 bg-gradient-to-br from-emerald-50 to-teal-50"
+                    animate={{ opacity: volume > 10 ? [0.6, 1, 0.6] : 0.6 }}
                     transition={{ duration: 1.5, repeat: Infinity }}
                   />
 
                   <div className="relative z-20 flex flex-col items-center">
                     {isMuted ? (
                       <MicOff
-                        className="w-10 h-10 text-sky-700 mb-3"
+                        className="w-12 h-12 text-slate-300 mb-3"
                         strokeWidth={1.5}
                       />
                     ) : (
                       <Mic
-                        className="w-10 h-10 text-green-400 mb-3"
+                        className="w-12 h-12 text-emerald-500 mb-3"
                         strokeWidth={1.5}
                       />
                     )}
-                    <span className="text-sky-950 text-sm font-medium opacity-80">
+                    <span className="text-slate-500 text-sm font-semibold tracking-wide uppercase">
                       {isMuted
                         ? "Muted"
                         : volume > 5
-                          ? "Speaking..."
-                          : "Listening..."}
+                          ? "Speaking"
+                          : "Listening"}
                     </span>
                   </div>
                 </motion.div>
               </div>
 
-              {/* Controls Pill */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="flex items-center gap-1 bg-sky-100 border border-sky-200 p-1.5 rounded-full shadow-xl z-20"
+                className="flex items-center gap-2 bg-white border border-slate-100 p-2 rounded-full shadow-lg z-20"
               >
                 <button
                   onClick={toggleMute}
-                  className={`p-3.5 rounded-full transition-all flex items-center justify-center ${
+                  className={`p-4 rounded-full transition-all flex items-center justify-center ${
                     isMuted
-                      ? "bg-red-500/10 text-red-400 hover:bg-red-500/20"
-                      : "bg-transparent text-sky-700 hover:text-sky-950 hover:bg-white/5"
+                      ? "bg-rose-50 text-rose-500 hover:bg-rose-100"
+                      : "bg-slate-50 text-slate-500 hover:text-slate-800 hover:bg-slate-100"
                   }`}
                 >
                   {isMuted ? (
-                    <MicOff className="w-5 h-5" />
+                    <MicOff className="w-6 h-6" />
                   ) : (
-                    <Mic className="w-5 h-5" />
+                    <Mic className="w-6 h-6" />
                   )}
                 </button>
-                <div className="w-[1px] h-6 bg-white/10 mx-1" />
+                <div className="w-[1px] h-8 bg-slate-200 mx-2" />
                 <button
                   onClick={endCall}
-                  className="p-3.5 px-5 rounded-full bg-red-500 text-sky-950 hover:bg-red-600 transition-all flex items-center gap-2"
+                  className="p-4 px-8 rounded-full bg-rose-500 text-white hover:bg-rose-600 transition-all flex items-center justify-center shadow-md hover:shadow-rose-500/25"
                 >
-                  <Phone className="w-5 h-5 rotate-[135deg]" />
+                  <Phone className="w-6 h-6 rotate-[135deg]" />
                 </button>
               </motion.div>
             </div>
 
-            {/* Right Column: Live Transcript */}
-            <div className="w-full lg:w-[380px] xl:w-[450px] border-t lg:border-t-0 lg:border-l border-sky-200 flex flex-col bg-sky-50/30 min-h-[350px] lg:min-h-0 lg:h-auto shrink-0 flex-1">
+            <div className="w-full lg:w-[380px] xl:w-[450px] border-t lg:border-t-0 lg:border-l border-slate-100 flex flex-col bg-slate-50 min-h-[350px] lg:min-h-0 lg:h-auto shrink-0 flex-1">
               {/* Transcript Header */}
-              <div className="flex items-center gap-2 px-6 py-5 border-b border-sky-200">
+              <div className="flex items-center gap-3 px-6 py-5 border-b border-slate-100 bg-white">
                 <svg
-                  width="20"
-                  height="20"
+                  width="22"
+                  height="22"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  strokeWidth="2"
+                  strokeWidth="2.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="text-green-500"
+                  className="text-teal-500"
                 >
                   <path d="M2 12h4l2-9 4 18 2-9h4" />
                 </svg>
-                <h3 className="text-sky-950 font-medium text-[15px]">
+                <h3 className="text-slate-800 font-bold text-lg">
                   Live Transcript
                 </h3>
               </div>
@@ -420,10 +415,10 @@ const TestCallWindow = () => {
                     className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                   >
                     <div
-                      className={`max-w-[85%] px-4 py-2.5 rounded-2xl text-[15px] ${
+                      className={`max-w-[85%] px-5 py-3.5 rounded-2xl text-[15px] shadow-sm leading-relaxed ${
                         msg.role === "user"
-                          ? "bg-[#133F2E] border border-green-500/20 text-green-50 rounded-tr-sm"
-                          : "bg-sky-100 border border-sky-200 text-gray-900 rounded-tl-sm"
+                          ? "bg-gradient-to-br from-sky-500 to-blue-600 text-white rounded-tr-sm shadow-blue-500/20"
+                          : "bg-white border border-slate-100 text-slate-700 rounded-tl-sm"
                       }`}
                     >
                       {msg.text}
@@ -437,10 +432,10 @@ const TestCallWindow = () => {
                     className={`flex ${activeTranscript.role === "user" ? "justify-end" : "justify-start"}`}
                   >
                     <div
-                      className={`max-w-[85%] px-4 py-2.5 rounded-2xl text-[15px] opacity-70 flex items-end gap-2 ${
+                      className={`max-w-[85%] px-5 py-3.5 rounded-2xl text-[15px] opacity-80 shadow-sm flex items-end gap-2 leading-relaxed ${
                         activeTranscript.role === "user"
-                          ? "bg-[#133F2E] border border-green-500/20 text-green-50 rounded-tr-sm"
-                          : "bg-sky-100 border border-sky-200 text-gray-900 rounded-tl-sm"
+                          ? "bg-gradient-to-br from-sky-500 to-blue-600 text-white rounded-tr-sm shadow-blue-500/20"
+                          : "bg-white border border-slate-100 text-slate-700 rounded-tl-sm"
                       }`}
                     >
                       {activeTranscript.text}
