@@ -1,0 +1,26 @@
+# Virtual environment — dependencies installed fresh inside the container
+venv
+.venv
+env
+
+# Python cache files
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+
+# Environment file — injected via docker-compose env_file
+.env
+.env.*
+
+# Runtime-generated data files
+data
+call_logs
+uploads
+reports
+
+# OS files
+.DS_Store
+
+# Editor
+.vscode

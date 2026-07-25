@@ -1,0 +1,152 @@
+services:
+
+  # ═══════════════════════════════════════════════════════════════
+  # PostgreSQL Database
+  # ═══════════════════════════════════════════════════════════════
+  postgres:
+    image: postgres:16-alpine
+    container_name: firevoice_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: Fire_Voice
+    volumes:
+      # Persistent volume — data survives container restarts
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d Fire_Voice"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # ═══════════════════════════════════════════════════════════════
+  # Node.js Backend
+  # ═══════════════════════════════════════════════════════════════
+  backend:
+    build:
+      context: ./Backend
+    container_name: firevoice_backend
+    restart: unless-stopped
+
+    # Load all env vars from the Backend .env file
+    env_file:
+      - ./Backend/.env
+
+    # These environment overrides are REQUIRED for Docker networking.
+    # They replace the localhost-based values in .env with Docker service names.
+    environment:
+      # Override DATABASE_URL to use the postgres container name instead of localhost
+      DATABASE_URL: postgresql://postgres:admin123@postgres:5432/Fire_Voice
+
+      # ─────────────────────────────────────────────────────────
+      # AI_SERVICE_URL — points to the AI container inside Docker
+      #
+      # LOCAL DEVELOPMENT (default):
+      AI_SERVICE_URL: http://ai:8001
+      #
+      # PRODUCTION — comment out the line above and uncomment below:
+      # AI_SERVICE_URL: https://your-ai-domain.com
+      # ─────────────────────────────────────────────────────────
+
+      # Backend URL used for internal references
+      BACKEND_URL: http://backend:8000
+
+    ports:
+      - "8000:8000"
+
+    # Wait for postgres to be healthy before starting
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+    # ─────────────────────────────────────────────────────────────
+    # Startup sequence (runs every time the container starts):
+    # 1. prisma migrate deploy — applies any pending migrations
+    # 2. node prisma/seed.js   — seeds default data (safe: uses upsert, no duplicates)
+    # 3. node src/server.js    — starts the Express server
+    # ─────────────────────────────────────────────────────────────
+    command: >
+      sh -c "npx prisma migrate deploy &&
+             node prisma/seed.js &&
+             node src/server.js"
+
+    volumes:
+      # Persistent volume for uploaded files (avatars, PDFs, training files, etc.)
+      - uploads_data:/app/uploads
+
+  # ═══════════════════════════════════════════════════════════════
+  # Python FastAPI — AI Service
+  # ═══════════════════════════════════════════════════════════════
+  ai:
+    build:
+      context: ./ai
+    container_name: firevoice_ai
+    restart: unless-stopped
+
+    # Load all env vars from the ai .env file
+    env_file:
+      - ./ai/.env
+
+    ports:
+      - "8001:8001"
+
+  # ═══════════════════════════════════════════════════════════════
+  # React Frontend — Vite Dev Server (Hot Reload)
+  #
+  # Source code is mounted as a volume so any code change
+  # is reflected instantly — NO rebuild required.
+  #
+  # 🚀 PRODUCTION: When ready to deploy, switch to production mode:
+  #   1. Comment out the entire frontend service below
+  #   2. Uncomment the "Frontend PRODUCTION" service block in README
+  #   OR change image/command and set VITE_API_BASE_URL accordingly
+  # ═══════════════════════════════════════════════════════════════
+  frontend:
+    image: node:22-alpine
+    container_name: firevoice_frontend
+    restart: unless-stopped
+    working_dir: /app
+
+    volumes:
+      # Mount source code — changes reflect immediately (hot reload)
+      - ./frontend:/app
+      # Isolate node_modules inside container (do not sync with host)
+      - /app/node_modules
+
+    environment:
+      # ─────────────────────────────────────────────────────
+      # SWITCHABLE: VITE_API_BASE_URL
+      #
+      # This is where the browser sends API requests.
+      # In dev mode, env vars here override the frontend .env file.
+      #
+      # ✅ LOCAL DEVELOPMENT (default — active now):
+      VITE_API_BASE_URL: http://localhost:8000/api
+      #
+      # 🚀 PRODUCTION — comment out the line above and uncomment below:
+      # VITE_API_BASE_URL: https://your-production-domain.com/api
+      # ─────────────────────────────────────────────────────
+
+    ports:
+      # Vite dev server runs on 5173
+      - "5173:5173"
+
+    # Install dependencies (if node_modules not yet present) then start Vite dev server.
+    # --host flag is required so Vite listens on 0.0.0.0 (accessible outside the container).
+    command: sh -c "npm install && npm run dev -- --host"
+
+    depends_on:
+      - backend
+
+# ═══════════════════════════════════════════════════════════════
+# Named Volumes
+# ═══════════════════════════════════════════════════════════════
+volumes:
+  # PostgreSQL data — persists your database across container restarts
+  postgres_data:
+  # Backend uploads — persists user-uploaded files
+  uploads_data:

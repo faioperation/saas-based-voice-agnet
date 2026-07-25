@@ -1,0 +1,22 @@
+# Dependencies — reinstalled inside the container
+node_modules
+
+# Environment files — injected via docker-compose env_file
+.env
+.env.*
+
+# Generated Prisma client — regenerated during build
+src/generated
+
+# Uploaded files — mounted as a Docker volume
+uploads
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+
+# Editor
+.vscode
