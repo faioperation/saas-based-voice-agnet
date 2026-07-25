@@ -26,7 +26,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-slate-50 dark:bg-[#140803] text-slate-600 dark:text-neutral-400 py-12 font-inter border-t border-slate-200 dark:border-neutral-800">
+    <footer className="bg-slate-50 dark:bg-[#140803] text-slate-600 dark:text-neutral-400 pt-12 font-inter border-t border-slate-200 dark:border-neutral-800">
       <Container>
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
@@ -91,7 +91,7 @@ const Footer = () => {
 
           <div className="flex flex-col items-start gap-4">
             <h4 className="text-slate-900 dark:text-white font-inter font-semibold mb-2">Company</h4>
-            <button onClick={() => scrollToSection('aboutUs')} className="text-sm font-inter text-slate-600 dark:text-neutral-400 hover:text-orange-500 transition-colors cursor-pointer">About</button>
+            <Link to="/about" className="text-sm font-inter text-slate-600 dark:text-neutral-400 hover:text-orange-500 transition-colors">About</Link>
             <button onClick={() => scrollToSection('faq')} className="text-sm font-inter text-slate-600 dark:text-neutral-400 hover:text-orange-500 transition-colors cursor-pointer">FAQ</button>
           </div>
 
