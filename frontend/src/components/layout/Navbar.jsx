@@ -14,7 +14,7 @@ import ThemeToggle from "../ThemeToggle";
 const navitems = [
   { name: "Home", href: "home" },
   { name: "How it works", href: "how-it-works" },
-  { name: "Demo", href: "demo" },
+  { name: "Industries", href: "industries" },
   { name: "Pricing", href: "pricing" },
   { name: "FAQ", href: "faq" },
   { name: "Contact Us", href: "contact" },

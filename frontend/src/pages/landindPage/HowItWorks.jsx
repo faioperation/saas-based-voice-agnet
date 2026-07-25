@@ -8,29 +8,37 @@ const HowItWorks = () => {
   const steps = [
     {
       icon: <Bot className="w-8 h-8 text-orange-500" />,
-      title: "Answers Like A Real Team Member",
+      title: "Setup & Configure",
       description:
-        "FireVoice speaks naturally with your customers, helping them place orders without waiting.",
-      slogan:
-        "From menu questions to special requests — FireVoice handles the conversation.",
+        "Create a business account, choose a subscription, and configure your basic business information.",
+      slogan: null,
       bg: "bg-orange-500/10",
       list: null,
     },
     {
       icon: <Brain className="w-8 h-8 text-red-500" />,
-      title: "Understands Your Restaurant",
-      description: "Your AI assistant learns your:",
+      title: "Train Your AI Employee",
+      description: "Upload your business knowledge base, FAQs, and customize the AI's personality, tone, and workflows.",
       slogan: null,
       bg: "bg-red-500/10",
-      list: ["Menu", "Prices", "Opening hours", "Special offers", "FAQs"],
+      list: null,
     },
     {
       icon: <Receipt className="w-8 h-8 text-rose-500" />,
-      title: "Sends Orders Straight To Your Kitchen",
+      title: "Connect Your Systems",
       description:
-        "Orders are organised clearly and sent directly to your printer. Customers receive a confirmation email and have the ability to pay via card.",
+        "Integrate your phone number, CRM, calendar, website, or other necessary business tools.",
       slogan: null,
       bg: "bg-rose-500/10",
+      list: null,
+    },
+    {
+      icon: <CheckCircle2 className="w-8 h-8 text-amber-500" />,
+      title: "Go Live 24/7",
+      description:
+        "Activate your AI voice agent and let your digital employee start answering customer calls immediately.",
+      slogan: null,
+      bg: "bg-amber-500/10",
       list: null,
     },
   ];
@@ -43,8 +51,8 @@ const HowItWorks = () => {
       <Container>
         <div className="mb-16 text-center max-w-4xl mx-auto flex flex-col items-center">
           <Header
-            titleText="Meet FireVoice — Your AI Restaurant Assistant"
-            subtitleText="FireVoice gives your business an intelligent phone assistant that works alongside your team, creating a faster experience for customers while saving you time."
+            titleText="How It Works"
+            subtitleText="Deploying your AI employee is simple, fast, and requires no AI infrastructure."
           />
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -53,12 +61,12 @@ const HowItWorks = () => {
             className="mt-8 inline-flex items-center justify-center bg-orange-500/10 border border-orange-500/30 px-6 py-2.5 rounded-full shadow-sm backdrop-blur-sm"
           >
             <span className="text-orange-500 font-inter text-[15px] sm:text-[16px] font-medium tracking-wide">
-              ✨ No complicated setup. No changes for your customers.
+              ✨ Launch a fully functional AI voice assistant in minutes.
             </span>
           </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 relative z-10">
           {steps.map((step, index) => (
             <motion.div
               key={index}

@@ -54,7 +54,7 @@ const PlanCard = ({
           ) : (
             <>
               <span className="text-slate-900 dark:text-white text-[36px] font-bold tracking-tight">
-                £{priceDisplay}
+                ${priceDisplay}
               </span>
               <span className="text-orange-500 text-[14px] font-medium">/month</span>
             </>

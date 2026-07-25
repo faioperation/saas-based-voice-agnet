@@ -212,7 +212,7 @@ const OrderList = () => {
                               {selectedOrder?.time || "-"}
                             </td>
                             <td className="py-5 text-[14px] text-slate-700 text-right">
-                              £{product.unit_prize || 0}
+                              ${product.unit_prize || 0}
                             </td>
                           </tr>
                         ))
@@ -235,7 +235,7 @@ const OrderList = () => {
                   <div className="text-[15px] font-semibold text-slate-800">
                     Total:{" "}
                     <span className="text-sky-600">
-                      £{selectedOrder?.totalPrice || 0}
+                      ${selectedOrder?.totalPrice || 0}
                     </span>
                   </div>
                   <div className="flex gap-4">

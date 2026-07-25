@@ -9,20 +9,20 @@ const problemsData = [
     icon: <PhoneOff className="w-6 h-6 text-orange-500" />,
     title: "Missed Opportunities",
     description:
-      "Busy phone lines mean customers may give up and order somewhere else.",
+      "Busy phone lines and after-hours calls mean missed leads and lost revenue.",
     bg: "bg-orange-500/10", 
   },
   {
     icon: <Users className="w-6 h-6 text-red-500" />,
-    title: "Staff Under Pressure",
+    title: "Expensive Call Centers",
     description:
-      "Your team spends valuable time answering repetitive questions instead of focusing on service.",
+      "Traditional call centers are expensive, difficult to scale, and limited by working hours.",
     bg: "bg-red-500/10", 
   },
   {
     icon: <TrendingUp className="w-6 h-6 text-rose-500" />,
-    title: "Rising Costs",
-    description: "Hiring extra staff just to manage calls is expensive.",
+    title: "Staff Under Pressure",
+    description: "Your team spends valuable time answering repetitive questions instead of focusing on high-value tasks.",
     bg: "bg-rose-500/10", 
   },
 ];
@@ -60,8 +60,8 @@ const Stats = () => {
       <Container>
         <div className="mb-14">
           <Header
-            titleText="Running a Busy Restaurant or Takeaway Isn't Easy"
-            subtitleText="During peak hours, every second matters. Staff are preparing food, serving customers and managing delivery orders — while the phone keeps ringing."
+            titleText="Why FireVoice?"
+            subtitleText="FireVoice offers a smarter alternative by providing AI employees that are always available, highly consistent, and capable of handling thousands of conversations simultaneously."
           />
         </div>
 

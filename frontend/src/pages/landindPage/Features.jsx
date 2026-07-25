@@ -7,38 +7,38 @@ import Container from "@/components/Container";
 const featuresData = [
   {
     icon: <Bot className="w-6 h-6 text-orange-500" />,
-    title: "AI Call Handling",
-    description: "Answers calls instantly using AI voice agents.",
+    title: "AI Voice Employee",
+    description: "Deploy human-like voice agents that maintain conversational context and deliver minimal latency.",
     bg: "bg-orange-500/10",
   },
   {
     icon: <FileText className="w-6 h-6 text-red-500" />,
-    title: "Smart Order Processing",
-    description: "Automatically generates structured order summaries.",
+    title: "Business Knowledge Base",
+    description: "Train your AI agent with your company's unique knowledge, business rules, and workflows.",
     bg: "bg-red-500/10",
   },
   {
     icon: <BarChart2 className="w-6 h-6 text-rose-500" />,
-    title: "AI Usage Analytics",
-    description: "Monitor call duration and usage in real-time.",
+    title: "Call Analytics & Insights",
+    description: "Access detailed conversation history, call recordings, and AI-driven conversation insights.",
     bg: "bg-rose-500/10",
   },
   {
     icon: <Mail className="w-6 h-6 text-amber-500" />,
-    title: "Automated Email Confirm",
-    description: "Sent instant order confirmation emails to customers.",
+    title: "Deep Integrations",
+    description: "Connect with your CRM, Calendar, Booking Systems, and Telephony systems seamlessly.",
     bg: "bg-amber-500/10",
   },
   {
     icon: <Lock className="w-6 h-6 text-orange-400" />,
-    title: "Kitchen Printing",
-    description: "Orders confirmed arrive to your printer instantly",
+    title: "Custom AI Workflows",
+    description: "Configure custom prompts, dynamic workflows, and multi-language support for your business.",
     bg: "bg-orange-400/10",
   },
   {
     icon: <Clock className="w-6 h-6 text-red-400" />,
     title: "24/7 Availability",
-    description: "Never miss a customer inquiry again.",
+    description: "Handle thousands of conversations simultaneously, without increasing staffing requirements.",
     bg: "bg-red-400/10",
   },
 ];
@@ -74,7 +74,7 @@ const Features = () => {
         <div className="mb-14">
           <Header
             titleText="Everything You Need To Automate Customer Calls"
-            subtitleText="Powerful features designed for modern businesses"
+            subtitleText="FireVoice provides a complete AI Voice Agent platform, including:"
           />
         </div>
 
