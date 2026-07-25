@@ -26,7 +26,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-gradient-to-t from-[#000000] via-[#3C0366]/30 to-[#000000] pt-16">
+    <footer className="bg-slate-50 dark:bg-[#140803] text-slate-600 dark:text-neutral-400 py-12 font-inter border-t border-slate-200 dark:border-neutral-800">
       <Container>
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
@@ -45,7 +45,14 @@ const Footer = () => {
                     alt="Logo"
                     width={48}
                     height={48}
-                    className="h-full w-auto object-contain"
+                    className="h-15 w-auto object-contain dark:hidden"
+                  />
+                  <img
+                    src="/logoDark.png"
+                    alt="Logo"
+                    width={48}
+                    height={48}
+                    className="h-15 w-auto object-contain hidden dark:block"
                   />
                 
                 <div>
@@ -55,7 +62,7 @@ const Footer = () => {
               </div>
             </Link>
             
-            <p className="text-sm font-inter text-[#DEDEDE] pr-4 leading-relaxed max-w-sm">
+            <p className="text-sm font-inter text-slate-600 dark:text-neutral-400 pr-4 leading-relaxed max-w-sm">
              AI-powered voice automation for modern businesses.
             </p>
 
@@ -77,15 +84,15 @@ const Footer = () => {
 
           {/* Links */}
           <div className="flex flex-col items-start gap-4 ">
-            <h4 className="text-sky-950 font-inter font-semibold mb-2">Product</h4>
-            <button onClick={() => scrollToSection('feature')} className="text-sm font-inter text-[#CDCDCD] hover:text-[#AD46FF] transition-colors cursor-pointer">Features</button>
-            <button onClick={() => scrollToSection('pricing')} className="text-sm font-inter text-[#CDCDCD] hover:text-[#AD46FF] transition-colors cursor-pointer">Pricing</button>
+            <h4 className="text-slate-900 dark:text-white font-inter font-semibold mb-2">Product</h4>
+            <button onClick={() => scrollToSection('feature')} className="text-sm font-inter text-slate-600 dark:text-neutral-400 hover:text-orange-500 transition-colors cursor-pointer">Features</button>
+            <button onClick={() => scrollToSection('pricing')} className="text-sm font-inter text-slate-600 dark:text-neutral-400 hover:text-orange-500 transition-colors cursor-pointer">Pricing</button>
           </div>
 
           <div className="flex flex-col items-start gap-4">
-            <h4 className="text-sky-950 font-inter font-semibold mb-2">Company</h4>
-            <button onClick={() => scrollToSection('aboutUs')} className="text-sm font-inter text-[#CDCDCD] hover:text-[#AD46FF] transition-colors cursor-pointer">About</button>
-            <button onClick={() => scrollToSection('faq')} className="text-sm font-inter text-[#CDCDCD] hover:text-[#AD46FF] transition-colors cursor-pointer">FAQ</button>
+            <h4 className="text-slate-900 dark:text-white font-inter font-semibold mb-2">Company</h4>
+            <button onClick={() => scrollToSection('aboutUs')} className="text-sm font-inter text-slate-600 dark:text-neutral-400 hover:text-orange-500 transition-colors cursor-pointer">About</button>
+            <button onClick={() => scrollToSection('faq')} className="text-sm font-inter text-slate-600 dark:text-neutral-400 hover:text-orange-500 transition-colors cursor-pointer">FAQ</button>
           </div>
 
           {/* <div className="flex flex-col gap-4">
@@ -94,9 +101,9 @@ const Footer = () => {
           </div> */}
 
           <div className="flex flex-col gap-4">
-            <h4 className="text-sky-950 font-inter font-semibold mb-2">Legal</h4>
-            <Link to="/privacy" className="text-sm font-inter text-[#CDCDCD] hover:text-[#AD46FF] transition-colors">Privacy Policy</Link>
-            <Link to="/termscondition" className="text-sm font-inter text-[#CDCDCD] hover:text-[#AD46FF] transition-colors">Terms of Service</Link>
+            <h4 className="text-slate-900 dark:text-white font-inter font-semibold mb-2">Legal</h4>
+            <Link to="/privacy" className="text-sm font-inter text-slate-600 dark:text-neutral-400 hover:text-orange-500 transition-colors">Privacy Policy</Link>
+            <Link to="/termscondition" className="text-sm font-inter text-slate-600 dark:text-neutral-400 hover:text-orange-500 transition-colors">Terms of Service</Link>
           </div>
         </motion.div>
 
@@ -105,10 +112,10 @@ const Footer = () => {
           whileInView={{ opacity: 1 }}
           viewport={{ once: false }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="py-8 border-t border-sky-200"
+          className="py-8 border-t border-slate-200 dark:border-neutral-900"
         > 
-          <p className="text-sm font-inter text-[#99A1AF]">
-            © {new Date().getFullYear()} Calai. All rights reserved.
+          <p className="text-sm font-inter text-slate-500 dark:text-neutral-500">
+            © {new Date().getFullYear()} FireVoice. All rights reserved.
           </p>
         </motion.div>
       </Container>

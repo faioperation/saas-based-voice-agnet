@@ -14,7 +14,7 @@ import {
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-sky-100 border border-gray-800 p-3 rounded-lg shadow-xl">
+      <div className="bg-white border border-sky-200 p-3 rounded-lg shadow-lg">
         <p className="text-sky-700 text-xs mb-1">{label}</p>
         <p className="text-sky-950 font-semibold text-sm">
           {payload[0].value} Min
@@ -27,7 +27,6 @@ const CustomTooltip = ({ active, payload, label }) => {
 
 const CallDuration = ({ data: apiData }) => {
   const [timeRange, setTimeRange] = useState('Last 15 days');
-
   const defaultData = [
     { name: '1 Feb', value: 34 },
     { name: '2 Feb', value: 54 },
@@ -52,11 +51,11 @@ const CallDuration = ({ data: apiData }) => {
     : defaultData;
 
   return (
-    <div className="w-full bg-sky-50 rounded-2xl px-6 py-10 border border-gray-800/50">
+    <div className="w-full bg-white shadow-[0_4px_20px_rgba(14,165,233,0.08)] rounded-2xl px-6 py-6 border border-sky-100 flex flex-col min-h-[600px]">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0 mb-8">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0 mb-6">
         <div className="flex items-center gap-4">
-          <h2 className="text-2xl font-medium text-sky-950">Total Call Duration</h2>
+          <h3 className="text-sky-950 text-lg font-semibold">Total Call Duration</h3>
           <div className="flex items-center gap-2">
             <span className="text-sky-700 text-sm">8.06%</span>
             <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center shadow-sm">
@@ -65,14 +64,14 @@ const CallDuration = ({ data: apiData }) => {
           </div>
         </div>
         
-        <div className="w-44">
+        <div className="w-44 relative z-20">
           <Dropdown
             options={["Last 7 days", "Last 15 days", "Last 30 days"]}
             value={timeRange}
             onSelect={(val) => setTimeRange(val)}
-            inputClass="!bg-transparent !border-gray-700 !text-sky-800 !py-2 !pl-4 !pr-10 !rounded-full !text-sm  !transition-colors !text-center"
-            optionClass="!bg-[#1C1C1E] !hover:bg-[#15248380] !border-gray-800 !text-sky-800"
-            icon="!text-sky-700 !right-2"
+            inputClass="bg-white border-sky-200 shadow-sm !rounded-full !py-1.5 px-4 text-sm text-sky-700 text-center min-w-[120px] focus:outline-none hover:bg-sky-50 transition-colors cursor-pointer"
+            optionClass="shadow-lg border-sky-100"
+            icon="text-sky-500 right-3"
           />
         </div>
       </div>
@@ -94,7 +93,7 @@ const CallDuration = ({ data: apiData }) => {
             <CartesianGrid 
               horizontal={false} 
               vertical={true} 
-              stroke="#262626" 
+              stroke="#e0f2fe" 
             />
             
             <XAxis 
@@ -113,17 +112,17 @@ const CallDuration = ({ data: apiData }) => {
               domain={[0, 'auto']}
             />
             
-            <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#262626', strokeWidth: 1 }} />
+            <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#38bdf8', strokeWidth: 1 }} />
             
             <Area
               type="linear"
               dataKey="value"
-              stroke="#2563EB"
-              strokeWidth={3}
+              stroke="#38bdf8"
+              strokeWidth={2}
               fillOpacity={1}
               fill="url(#colorValue)"
-              dot={{ r: 7, fill: '#0F2EC5', strokeWidth: 0 }}
-              activeDot={{ r: 7, fill: '#0F2EC580', stroke: '#fff', strokeWidth: 2 }}
+              dot={{ r: 7, fill: '#38bdf8', strokeWidth: 0 }}
+              activeDot={{ r: 7, fill: '#38bdf880', stroke: '#fff', strokeWidth: 2 }}
             />
           </AreaChart>
         </ResponsiveContainer>

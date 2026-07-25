@@ -148,21 +148,21 @@ const OrderList = () => {
 
       {/* View Modal */}
       {selectedOrderId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/60 backdrop-blur-sm p-4 text-sky-950">
-          <div className="bg-sky-50 border border-[#1A1A1A] rounded-[20px] w-full max-w-[700px] overflow-hidden relative shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/20 backdrop-blur-sm p-4 text-slate-800">
+          <div className="bg-white border border-slate-100 rounded-3xl w-full max-w-[700px] overflow-hidden relative shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)]">
             {/* Header */}
-            <div className="px-8 py-6 border-b border-[#1A1A1A] flex justify-between items-center">
-              <h2 className="text-[17px] text-gray-900">
+            <div className="px-8 py-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+              <h2 className="text-lg font-semibold text-slate-800">
                 Order Summary{" "}
                 {selectedOrder && (
-                  <span className="text-sky-700">
+                  <span className="text-sky-600 font-medium">
                     ({selectedOrder.customerName})
                   </span>
                 )}
               </h2>
               <button
                 onClick={closeModal}
-                className="text-sky-700 hover:text-sky-950 transition-colors cursor-pointer"
+                className="text-slate-400 hover:text-slate-600 bg-white hover:bg-slate-100 p-2 rounded-full border border-slate-200 shadow-sm transition-colors cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -178,17 +178,17 @@ const OrderList = () => {
                 <div className="px-8 py-2 max-h-[400px] overflow-y-auto">
                   <table className="w-full text-left border-collapse">
                     <thead>
-                      <tr className="border-b border-[#1A1A1A]">
-                        <th className="py-4 text-[14px] font-semibold text-sky-950">
+                      <tr className="border-b border-slate-100">
+                        <th className="py-4 text-[14px] font-semibold text-slate-600">
                           Product name
                         </th>
-                        <th className="py-4 text-[14px] font-semibold text-sky-950 text-center">
+                        <th className="py-4 text-[14px] font-semibold text-slate-600 text-center">
                           Order Quantity
                         </th>
-                        <th className="py-4 text-[14px] font-semibold text-sky-950">
+                        <th className="py-4 text-[14px] font-semibold text-slate-600">
                           Time
                         </th>
-                        <th className="py-4 text-[14px] font-semibold text-sky-950 text-right">
+                        <th className="py-4 text-[14px] font-semibold text-slate-600 text-right">
                           Price
                         </th>
                       </tr>
@@ -198,20 +198,20 @@ const OrderList = () => {
                         orderProducts.map((product, idx) => (
                           <tr
                             key={product.id || idx}
-                            className="border-b border-[#1A1A1A]"
+                            className="border-b border-slate-100 last:border-0 hover:bg-slate-50/50 transition-colors"
                           >
-                            <td className="py-5 text-[14px] text-sky-800">
+                            <td className="py-5 text-[14px] text-slate-700 font-medium">
                               {product.product_name || `Item ${idx + 1}`}
                             </td>
-                            <td className="py-5 text-[14px] text-sky-800 text-center">
+                            <td className="py-5 text-[14px] text-slate-700 text-center">
                               <span className="inline-block px-4">
                                 {product.quantity}
                               </span>
                             </td>
-                            <td className="py-5 text-[14px] text-sky-800">
+                            <td className="py-5 text-[14px] text-slate-700">
                               {selectedOrder?.time || "-"}
                             </td>
-                            <td className="py-5 text-[14px] text-sky-800 text-right">
+                            <td className="py-5 text-[14px] text-slate-700 text-right">
                               £{product.unit_prize || 0}
                             </td>
                           </tr>
@@ -220,7 +220,7 @@ const OrderList = () => {
                         <tr>
                           <td
                             colSpan="4"
-                            className="py-8 text-center text-sky-600 text-sm"
+                            className="py-8 text-center text-slate-500 text-sm"
                           >
                             No items found for this order.
                           </td>
@@ -231,24 +231,24 @@ const OrderList = () => {
                 </div>
 
                 {/* Footer Actions */}
-                <div className="px-8 py-6 flex justify-between items-center mt-2 border-t border-[#1A1A1A]">
-                  <div className="text-[15px] font-medium text-sky-950">
+                <div className="px-8 py-6 flex justify-between items-center bg-slate-50/50 border-t border-slate-100">
+                  <div className="text-[15px] font-semibold text-slate-800">
                     Total:{" "}
-                    <span className="text-[#2563EB]">
+                    <span className="text-sky-600">
                       £{selectedOrder?.totalPrice || 0}
                     </span>
                   </div>
                   <div className="flex gap-4">
                     <button
                       onClick={handlePrint}
-                      className="flex items-center gap-2 bg-[#1A2255] hover:bg-[#232D70] transition-colors text-sky-950 px-6 py-2.5 rounded-[10px] text-[13px] font-medium cursor-pointer"
+                      className="flex items-center gap-2 bg-white border border-slate-200 hover:border-sky-300 hover:bg-sky-50 transition-colors text-slate-700 hover:text-sky-700 px-6 py-2.5 rounded-xl text-[14px] font-semibold cursor-pointer shadow-sm"
                     >
                       <Printer className="w-4 h-4" />
                       Print
                     </button>
                     <button
                       onClick={handleDownload}
-                      className="flex items-center gap-2 bg-[#1A2255] hover:bg-[#232D70] transition-colors text-sky-950 px-6 py-2.5 rounded-[10px] text-[13px] font-medium cursor-pointer"
+                      className="flex items-center gap-2 bg-white border border-slate-200 hover:border-sky-300 hover:bg-sky-50 transition-colors text-slate-700 hover:text-sky-700 px-6 py-2.5 rounded-xl text-[14px] font-semibold cursor-pointer shadow-sm"
                     >
                       <Download className="w-4 h-4" />
                       Download

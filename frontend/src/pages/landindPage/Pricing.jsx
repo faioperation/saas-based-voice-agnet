@@ -29,41 +29,39 @@ const PlanCard = ({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: false, margin: "-50px" }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className={`relative bg-gradient-to-b from-[#0B1120] to-[#111827] border  ${isPopular ? "border-blue-600 shadow-[0_0_20px_rgba(37,99,235,0.15)]" : "border-[#272727]"} p-6 rounded-[28px] flex flex-col gap-6  transition-all group h-full`}
+      className={`relative bg-white dark:bg-neutral-900 border ${isPopular ? "border-orange-500 shadow-[0_0_20px_rgba(249,115,22,0.3)] ring-1 ring-orange-500/50" : "border-slate-200 dark:border-neutral-800 shadow-sm dark:shadow-[0_8px_30px_rgba(0,0,0,0.5)]"} p-6 md:p-8 rounded-3xl flex flex-col gap-6 hover:border-orange-500/50 transition-all group h-full`}
     >
       {isPopular && (
         <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-          <div className="bg-[#0B1120] px-4 py-1 rounded-full border border-blue-600 text-sky-950 text-[13px] font-semibold whitespace-nowrap">
+          <div className="bg-gradient-to-r from-orange-500 to-red-600 px-4 py-1 rounded-full border border-red-500 text-white text-[13px] font-semibold whitespace-nowrap shadow-sm">
             Most Popular
           </div>
         </div>
       )}
       <div className="flex flex-col gap-5">
         <div
-          className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-[13px] font-medium w-fit transition-colors ${isPopular ? "bg-blue-600/10 text-blue-400 border border-blue-600/40" : "bg-[#1A1A1A] text-sky-800 border border-[#272727]"}`}
+          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-[13px] font-medium w-fit bg-orange-500/10 text-orange-500"
         >
           {plan.name}
-          <Sparkles
-            className={`w-3.5 h-3.5 ${isPopular ? "text-blue-400" : "text-sky-700"}`}
-          />
+          <Sparkles className="w-3.5 h-3.5 text-orange-400" />
         </div>
 
         <div className="flex items-baseline gap-1.5">
           {plan.name?.toLowerCase() === "enterprise" ? (
-            <span className="text-sky-950 text-[24px] font-bold tracking-tight">
+            <span className="text-slate-900 dark:text-white text-[24px] font-bold tracking-tight">
               Custom Price
             </span>
           ) : (
             <>
-              <span className="text-sky-950 text-[32px] font-bold tracking-tight">
+              <span className="text-slate-900 dark:text-white text-[36px] font-bold tracking-tight">
                 £{priceDisplay}
               </span>
-              <span className="text-sky-600 text-sm font-medium">/month</span>
+              <span className="text-orange-500 text-[14px] font-medium">/month</span>
             </>
           )}
         </div>
 
-        <p className="text-sky-700 text-[13px] leading-relaxed min-h-[40px]">
+        <p className="text-slate-600 dark:text-neutral-400 text-[13px] leading-relaxed min-h-[40px]">
           {plan.description}
         </p>
       </div>
@@ -76,12 +74,12 @@ const PlanCard = ({
           return (
             <div key={idx} className="flex items-center gap-3">
               {included ? (
-                <Check className="w-4 h-4 text-blue-500/80 shrink-0 mt-0.5" />
+                <Check className="w-4 h-4 text-orange-500 shrink-0 mt-0.5" />
               ) : (
-                <X className="w-4 h-4 text-sky-500 shrink-0 mt-0.5" />
+                <X className="w-4 h-4 text-neutral-600 shrink-0 mt-0.5" />
               )}
               <span
-                className={`text-[13px] leading-tight ${included ? "text-sky-800" : "text-sky-500"}`}
+                className={`text-[13px] leading-tight ${included ? "text-slate-700 dark:text-neutral-300" : "text-slate-400 dark:text-neutral-600"}`}
               >
                 {text}
               </span>
@@ -94,7 +92,7 @@ const PlanCard = ({
         {role === "BUSINESS_OWNER" && isCurrentPlan ? (
           <button
             disabled
-            className="w-full py-2.5 rounded-lg border border-[#272727] bg-[#1A1A1A] text-sm text-sky-600 cursor-not-allowed flex items-center justify-center gap-2"
+            className="w-full py-3 rounded-[12px] border border-neutral-800 bg-neutral-800/50 text-[14.5px] font-semibold text-neutral-500 cursor-not-allowed flex items-center justify-center gap-2"
           >
             Current Plan
           </button>
@@ -102,7 +100,7 @@ const PlanCard = ({
           <button
             onClick={() => onUpgrade(plan)}
             disabled={isPendingUpgrade}
-            className="w-full py-2.5 rounded-lg border border-[#0F42FF] bg-sky-600 hover:bg-sky-700 text-sm text-sky-950 shadow-[0_0_15px_rgba(37,99,235,0.4)] hover:shadow-[0_0_20px_rgba(37,99,235,0.6)] transition-all cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
+            className={`w-full py-3 rounded-[12px] text-[14.5px] font-semibold transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 ${isPopular ? "bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white shadow-[0_0_15px_rgba(239,68,68,0.3)] hover:shadow-[0_0_25px_rgba(239,68,68,0.5)]" : "bg-slate-50 dark:bg-neutral-900 border border-slate-200 dark:border-neutral-700 hover:border-orange-500/50 hover:bg-slate-100 dark:hover:bg-neutral-800 text-slate-900 dark:text-white shadow-sm"}`}
           >
             {isPendingUpgrade && <Loader2 className="w-4 h-4 animate-spin" />}
             {plan.name?.toLowerCase() === "enterprise"
@@ -189,7 +187,7 @@ const Pricing = () => {
   };
 
   return (
-    <div id="pricing" className="py-15">
+    <div id="pricing" className="py-15 bg-slate-50 dark:bg-gradient-to-b dark:from-[#140803] dark:to-neutral-950">
       <Container>
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -206,7 +204,7 @@ const Pricing = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mt-10 justify-center">
           {isLoading ? (
             <div className="col-span-full flex justify-center py-12">
-              <Loader2 className="animate-spin text-[#0F42FF] w-8 h-8" />
+              <Loader2 className="animate-spin text-orange-500 w-8 h-8" />
             </div>
           ) : plans.length > 0 ? (
             plans.map((plan, index) => (
@@ -225,7 +223,7 @@ const Pricing = () => {
             ))
           ) : (
             <div className="col-span-full flex justify-center py-12">
-              <span className="text-sky-700">
+              <span className="text-neutral-400">
                 No plans available right now.
               </span>
             </div>

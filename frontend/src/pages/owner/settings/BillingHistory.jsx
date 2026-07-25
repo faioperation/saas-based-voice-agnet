@@ -46,14 +46,14 @@ const BillingHistory = () => {
   if (isLoading) {
     return (
       <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-        <h2 className="text-xl font-semibold text-sky-950 mb-1">
+        <h2 className="text-xl font-bold text-slate-800 mb-1">
           Billing History
         </h2>
-        <p className="text-sm text-sky-700 mb-8">
+        <p className="text-[14px] text-slate-500 mb-8">
           Your subscription plan Billing
         </p>
-        <div className="bg-sky-50 rounded-xl border border-sky-200 h-[300px] flex items-center justify-center">
-          <Loader2 className="animate-spin text-[#2563EB] w-8 h-8" />
+        <div className="h-[300px] flex items-center justify-center">
+          <Loader2 className="animate-spin text-sky-500 w-8 h-8" />
         </div>
       </div>
     );
@@ -61,8 +61,8 @@ const BillingHistory = () => {
 
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <h2 className="text-xl font-semibold text-sky-950 mb-1">Billing History</h2>
-      <p className="text-sm text-sky-700 mb-8">
+      <h2 className="text-xl font-bold text-slate-800 mb-1">Billing History</h2>
+      <p className="text-[14px] text-slate-500 mb-8">
         Your subscription plan Billing
       </p>
 
@@ -71,11 +71,12 @@ const BillingHistory = () => {
           <Table
             TableHeads={tableHeads}
             TableRows={tableRows}
-            headClass=" border-b border-[#1A1A1A] text-gray-900 whitespace-nowrap"
+            headClass="border-b border-slate-100 text-slate-800 whitespace-nowrap bg-slate-50/50"
             tableClass="border-none"
+            wrapperClass="overflow-visible"
           />
         ) : (
-          <div className="p-8 text-center text-sky-700 text-sm">
+          <div className="p-8 text-center text-slate-500 text-[14px]">
             No billing history found.
           </div>
         )}

@@ -55,17 +55,14 @@ const Contact = () => {
   };
 
   return (
-    <section
-      id="contact"
-      className="py-20 relative bg-linear-to-t from-[#59168B]/10 via-[#1C398E]/10 to-transparent text-sky-950"
-    >
+    <section id="contact" className="py-20 relative bg-slate-50 dark:bg-gradient-to-b dark:from-[#160606] dark:to-neutral-950 font-inter">
       <Container>
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, margin: "-50px" }}
           transition={{ duration: 0.7 }}
-          className="mx-auto bg-[#02060F]/80 backdrop-blur-xl border border-[#1C398E]/40 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col lg:flex-row relative overflow-hidden justify-between"
+          className="mx-auto bg-white dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 rounded-[2rem] shadow-sm dark:shadow-[0_8px_30px_rgba(0,0,0,0.5)] flex flex-col lg:flex-row relative overflow-hidden justify-between"
         >
           {/* Left Dark Section */}
           <motion.div
@@ -73,42 +70,42 @@ const Contact = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: false }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="bg-gradient-to-br from-[#59168B]/20 to-[#1C398E]/20 border border-[#59168B]/30 relative overflow-hidden rounded-[1.5rem] p-8 md:p-10 w-full lg:w-[40%] flex flex-col"
+            className="bg-slate-50 dark:bg-neutral-900/50 border border-slate-200 dark:border-neutral-800/50 relative overflow-hidden rounded-[1.5rem] p-8 md:p-10 w-full lg:w-[40%] flex flex-col"
           >
             <div className="relative z-10">
-              <h3 className="bg-gradient-to-r from-[#C27AFF] to-[#00D3F3] bg-clip-text text-transparent tracking-wider text-3xl font-bold mb-3 ">
+              <h3 className="text-orange-500 tracking-wider text-sm uppercase font-bold mb-3 ">
                 Contact Us
               </h3>
-              <h2 className="text-2xl font-bold mb-3 bg-gradient-to-r from-[#E9D4FF] to-[#FFFFFF] bg-clip-text text-transparent">
-                Get Started With Calai
+              <h2 className="text-2xl font-bold mb-3 text-slate-900 dark:text-white">
+                Get Started With FireVoice
               </h2>
-              <p className="text-sky-800 text-sm leading-relaxed mb-12">
+              <p className="text-slate-600 dark:text-neutral-400 text-sm leading-relaxed mb-12">
                 Tell us about your restaurant and our team will help you
-                discover how Calai can improve customer service, save time and
+                discover how FireVoice can improve customer service, save time and
                 support your business.
               </p>
 
               <div className="flex flex-col gap-8">
-                <div className="flex items-center gap-4 text-gray-900">
-                  <div className="w-10 h-10 rounded-full bg-[#59168B]/30 flex items-center justify-center shrink-0 border border-[#C27AFF]/30">
-                    <FiPhone className="text-lg text-[#00D3F3]" />
+                <div className="flex items-center gap-4 text-slate-700 dark:text-neutral-300">
+                  <div className="w-10 h-10 rounded-full bg-white dark:bg-neutral-900 flex items-center justify-center shrink-0 border border-orange-500/30">
+                    <FiPhone className="text-lg text-orange-500" />
                   </div>
                   <span className="text-sm font-medium">+447719436543</span>
                 </div>
-                <div className="flex items-center gap-4 text-gray-900">
-                  <div className="w-10 h-10 rounded-full bg-[#59168B]/30 flex items-center justify-center shrink-0 border border-[#C27AFF]/30">
-                    <FiMail className="text-lg text-[#00D3F3]" />
+                <div className="flex items-center gap-4 text-slate-700 dark:text-neutral-300">
+                  <div className="w-10 h-10 rounded-full bg-white dark:bg-neutral-900 flex items-center justify-center shrink-0 border border-orange-500/30">
+                    <FiMail className="text-lg text-orange-500" />
                   </div>
                   <span className="text-sm font-medium">
-                    Enquiries@calai.info
+                    Enquiries@firevoice.info
                   </span>
                 </div>
               </div>
             </div>
 
             {/* Decorative Background Circles */}
-            <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-[#00D3F3]/10 rounded-full pointer-events-none blur-2xl"></div>
-            <div className="absolute -top-24 -left-24 w-64 h-64 bg-[#C27AFF]/10 rounded-full pointer-events-none blur-2xl"></div>
+            <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-orange-500/20 rounded-full pointer-events-none blur-2xl"></div>
+            <div className="absolute -top-24 -left-24 w-64 h-64 bg-red-500/20 rounded-full pointer-events-none blur-2xl"></div>
           </motion.div>
 
           {/* Right Form Section */}
@@ -125,8 +122,8 @@ const Contact = () => {
                   label="Full Name*"
                   type="text"
                   required
-                  labelClass="!text-sky-800 !font-medium mb-1 text-sm"
-                  inputClass="!bg-[#0A0F24] !text-sky-950 !border-[#1C398E]/50 !placeholder-gray-500 focus:!border-[#C27AFF] !py-3 !text-sm transition-colors shadow-inner "
+                  labelClass="!text-slate-700 dark:!text-neutral-300 !font-medium mb-1 text-sm"
+inputClass="!bg-white dark:!bg-neutral-950 !text-slate-900 dark:!text-white !border-slate-200 dark:!border-neutral-800 !placeholder-slate-400 dark:!placeholder-neutral-600 focus:!border-orange-500 focus:!bg-slate-50 dark:focus:!bg-neutral-900 !py-3 !text-sm transition-colors shadow-sm"
                   className="sm:col-span-2"
                   placeholder="Enter full name"
                   value={formData.fullName}
@@ -140,8 +137,8 @@ const Contact = () => {
                   type="text"
                   required
                   className=""
-                  labelClass="!text-sky-800 !font-medium mb-1 text-sm"
-                  inputClass="!bg-[#0A0F24] !text-sky-950 !border-[#1C398E]/50 !placeholder-gray-500 focus:!border-[#C27AFF] !py-3 !text-sm transition-colors shadow-inner"
+                  labelClass="!text-slate-700 dark:!text-neutral-300 !font-medium mb-1 text-sm"
+inputClass="!bg-white dark:!bg-neutral-950 !text-slate-900 dark:!text-white !border-slate-200 dark:!border-neutral-800 !placeholder-slate-400 dark:!placeholder-neutral-600 focus:!border-orange-500 focus:!bg-slate-50 dark:focus:!bg-neutral-900 !py-3 !text-sm transition-colors shadow-sm"
                   placeholder="Enter business name"
                   value={formData.businessName}
                   onChange={(e) =>
@@ -153,10 +150,10 @@ const Contact = () => {
                   label="Business Type*"
                   placeholder="Select type"
                   options={["Restaurant", "Takeaway", "Other"]}
-                  labelClass="!text-sky-800 !font-medium mb-1 text-sm"
-                  inputClass="!bg-[#0A0F24] !text-sky-950 !border-[#1C398E]/50 !placeholder-gray-500 focus:!border-[#C27AFF] !py-3 !text-sm transition-colors shadow-inner"
-                  optionClass="!bg-[#0A0F24] !text-sky-950 border border-[#1C398E]/50"
-                  icon="!text-sky-700"
+                  labelClass="!text-slate-700 dark:!text-neutral-300 !font-medium mb-1 text-sm"
+inputClass="!bg-white dark:!bg-neutral-950 !text-slate-900 dark:!text-white !border-slate-200 dark:!border-neutral-800 !placeholder-slate-400 dark:!placeholder-neutral-600 focus:!border-orange-500 focus:!bg-slate-50 dark:focus:!bg-neutral-900 !py-3 !text-sm transition-colors shadow-sm"
+                  optionClass="!bg-white dark:!bg-neutral-900 !text-slate-900 dark:!text-white border border-slate-200 dark:border-neutral-800"
+                  icon="!text-orange-500"
                   value={formData.businessType}
                   onSelect={(val) =>
                     setFormData({ ...formData, businessType: val })
@@ -166,8 +163,8 @@ const Contact = () => {
                   label="Business Postcode*"
                   type="text"
                   required
-                  labelClass="!text-sky-800 !font-medium mb-1 text-sm"
-                  inputClass="!bg-[#0A0F24] !text-sky-950 !border-[#1C398E]/50 !placeholder-gray-500 focus:!border-[#C27AFF] !py-3 !text-sm transition-colors shadow-inner"
+                  labelClass="!text-slate-700 dark:!text-neutral-300 !font-medium mb-1 text-sm"
+inputClass="!bg-white dark:!bg-neutral-950 !text-slate-900 dark:!text-white !border-slate-200 dark:!border-neutral-800 !placeholder-slate-400 dark:!placeholder-neutral-600 focus:!border-orange-500 focus:!bg-slate-50 dark:focus:!bg-neutral-900 !py-3 !text-sm transition-colors shadow-sm"
                   placeholder="Enter business postcode"
                   value={formData.businessPostcode}
                   onChange={(e) =>
@@ -182,8 +179,8 @@ const Contact = () => {
                   label="Phone Number*"
                   type="tel"
                   required
-                  labelClass="!text-sky-800 !font-medium mb-1 text-sm"
-                  inputClass="!bg-[#0A0F24] !text-sky-950 !border-[#1C398E]/50 !placeholder-gray-500 focus:!border-[#C27AFF] !py-3 !text-sm transition-colors shadow-inner"
+                  labelClass="!text-slate-700 dark:!text-neutral-300 !font-medium mb-1 text-sm"
+inputClass="!bg-white dark:!bg-neutral-950 !text-slate-900 dark:!text-white !border-slate-200 dark:!border-neutral-800 !placeholder-slate-400 dark:!placeholder-neutral-600 focus:!border-orange-500 focus:!bg-slate-50 dark:focus:!bg-neutral-900 !py-3 !text-sm transition-colors shadow-sm"
                   placeholder="Enter phone number"
                   value={formData.phoneNumber}
                   onChange={(e) =>
@@ -195,8 +192,8 @@ const Contact = () => {
                   label="Email Address*"
                   type="email"
                   required
-                  labelClass="!text-sky-800 !font-medium mb-1 text-sm"
-                  inputClass="!bg-[#0A0F24] !text-sky-950 !border-[#1C398E]/50 !placeholder-gray-500 focus:!border-[#C27AFF] !py-3 !text-sm transition-colors shadow-inner"
+                  labelClass="!text-slate-700 dark:!text-neutral-300 !font-medium mb-1 text-sm"
+inputClass="!bg-white dark:!bg-neutral-950 !text-slate-900 dark:!text-white !border-slate-200 dark:!border-neutral-800 !placeholder-slate-400 dark:!placeholder-neutral-600 focus:!border-orange-500 focus:!bg-slate-50 dark:focus:!bg-neutral-900 !py-3 !text-sm transition-colors shadow-sm"
                   placeholder="Enter email"
                   value={formData.email}
                   onChange={(e) =>
@@ -208,10 +205,10 @@ const Contact = () => {
                   label="Daily Phone Orders (optional)"
                   placeholder="Select call volume"
                   options={["Less than 20", "20–50", "50–100", "100+"]}
-                  labelClass="!text-sky-800 !font-medium mb-1 text-sm"
-                  inputClass="!bg-[#0A0F24] !text-sky-950 !border-[#1C398E]/50 !placeholder-gray-500 focus:!border-[#C27AFF] !py-3 !text-sm transition-colors shadow-inner"
-                  optionClass="!bg-[#0A0F24] !text-sky-950 border border-[#1C398E]/50"
-                  icon="!text-sky-700"
+                  labelClass="!text-slate-700 dark:!text-neutral-300 !font-medium mb-1 text-sm"
+inputClass="!bg-white dark:!bg-neutral-950 !text-slate-900 dark:!text-white !border-slate-200 dark:!border-neutral-800 !placeholder-slate-400 dark:!placeholder-neutral-600 focus:!border-orange-500 focus:!bg-slate-50 dark:focus:!bg-neutral-900 !py-3 !text-sm transition-colors shadow-sm"
+                  optionClass="!bg-white dark:!bg-neutral-900 !text-slate-900 dark:!text-white border border-slate-200 dark:border-neutral-800"
+                  icon="!text-orange-500"
                   value={formData.dailyOrders}
                   onSelect={(val) =>
                     setFormData({ ...formData, dailyOrders: val })
@@ -220,11 +217,11 @@ const Contact = () => {
               </div>
 
               <div className="flex flex-col gap-2 mb-8 flex-grow">
-                <label className="font-medium text-sky-800 text-sm">
+                <label className="font-medium text-slate-700 dark:text-neutral-300 text-sm">
                   Message
                 </label>
                 <textarea
-                  className="w-full h-full border border-[#1C398E]/50 outline-none p-4 text-sky-950 bg-[#0A0F24] placeholder-gray-500 rounded-xl min-h-[120px] focus:border-[#C27AFF] transition-colors text-sm shadow-inner resize-none"
+                  className="w-full h-full border border-slate-200 dark:border-neutral-800 outline-none p-4 text-slate-900 dark:text-white bg-white dark:bg-neutral-950 placeholder-slate-400 dark:placeholder-neutral-600 rounded-xl min-h-[120px] focus:border-orange-500 focus:bg-slate-50 dark:focus:bg-neutral-900 transition-colors text-sm shadow-sm resize-none"
                   placeholder="Tell us about your specific needs or questions..."
                   value={formData.message}
                   onChange={(e) =>
@@ -239,7 +236,7 @@ const Contact = () => {
                   whileTap={{ scale: 0.98 }}
                   type="submit"
                   disabled={isSubmitting}
-                  className={`bg-sky-600 hover:bg-sky-700 hover:from-[#001c80] hover:to-[#001870] text-sky-950 font-bold py-3 px-8 rounded-full transition-all duration-300 border border-[#0F42FF] shadow-[0_0_15px_rgba(15,66,255,0.3)] hover:shadow-[0_0_20px_rgba(15,66,255,0.6)] ${isSubmitting ? "opacity-70 cursor-not-allowed" : ""}`}
+                  className={`bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 border border-transparent shadow-[0_0_15px_rgba(239,68,68,0.3)] hover:shadow-[0_0_25px_rgba(239,68,68,0.5)] ${isSubmitting ? "opacity-70 cursor-not-allowed" : ""}`}
                 >
                   {isSubmitting ? "Sending..." : "Book My Free Demo"}
                 </motion.button>

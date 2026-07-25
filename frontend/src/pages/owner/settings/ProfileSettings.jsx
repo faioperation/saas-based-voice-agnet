@@ -207,34 +207,34 @@ const ProfileSettings = () => {
 
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <h2 className="text-xl font-semibold text-sky-950 mb-1">
+      <h2 className="text-xl font-bold text-slate-800 mb-1">
         Profile Settings
       </h2>
-      <p className="text-sm text-sky-700 mb-8">
+      <p className="text-[14px] text-slate-500 mb-8">
         Update your personal information
       </p>
 
-      <div className="bg-sky-50 p-6 rounded-xl border border-sky-200 mb-8">
+      <div className="bg-white p-6 md:p-8 rounded-[24px] border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] mb-8">
         {/* Profile Image */}
-        <div className="relative w-20 h-20 mb-8">
+        <div className="relative w-24 h-24 mb-8 group">
           {displayImage ? (
             <img
               src={displayImage}
               alt="Profile"
-              className="w-full h-full rounded-full object-cover border-2 border-sky-200"
+              className="w-full h-full rounded-full object-cover border-4 border-white shadow-[0_4px_15px_rgba(0,0,0,0.1)] transition-transform group-hover:scale-[1.02]"
             />
           ) : (
-            <div className="w-full h-full rounded-full bg-sky-100 flex items-center justify-center border-2 border-sky-200">
-              <User className="text-sky-700 w-8 h-8" />
+            <div className="w-full h-full rounded-full bg-slate-50 flex items-center justify-center border-4 border-white shadow-[0_4px_15px_rgba(0,0,0,0.1)] transition-transform group-hover:scale-[1.02]">
+              <User className="text-slate-400 w-10 h-10" />
             </div>
           )}
           {isProfileEditing && (
             <button
               onClick={handleImageClick}
               disabled={isProfilePending}
-              className="absolute bottom-0 right-0 bg-sky-100 p-1.5 rounded-full border border-sky-200 hover:bg-white/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="absolute bottom-0 right-0 bg-white p-2 rounded-full border border-slate-100 shadow-md hover:shadow-lg hover:border-sky-300 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sky-600 hover:text-sky-700 z-10"
             >
-              <Camera className="w-3 h-3 text-sky-950" />
+              <Camera className="w-4 h-4" />
             </button>
           )}
           <input
@@ -254,8 +254,8 @@ const ProfileSettings = () => {
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             readOnly={!isProfileEditing || isProfilePending}
-            labelClass="!text-sm !font-medium !text-sky-800"
-            inputClass={`!bg-sky-50 !border-sky-200 !rounded-full !px-5 !py-3.5 !text-sm ${!isProfileEditing || isProfilePending ? "!text-sky-600 cursor-default" : "!text-sky-950"} placeholder:!text-sky-500 focus:!outline-none focus:!border-blue-500/50`}
+            labelClass="!text-[14px] !font-medium !text-slate-700"
+            inputClass={`!bg-slate-50 !border-slate-200 !rounded-[12px] !px-5 !py-3.5 !text-[14.5px] ${!isProfileEditing || isProfilePending ? "!text-slate-500 cursor-default opacity-80" : "!text-slate-800 !bg-white hover:!border-sky-300"} placeholder:!text-slate-400 focus:!outline-none focus:!border-sky-500 focus:!ring-1 focus:!ring-sky-500 !shadow-sm transition-all`}
           />
           <InputField
             label="Last Name"
@@ -263,8 +263,8 @@ const ProfileSettings = () => {
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             readOnly={!isProfileEditing || isProfilePending}
-            labelClass="!text-sm !font-medium !text-sky-800"
-            inputClass={`!bg-sky-50 !border-sky-200 !rounded-full !px-5 !py-3.5 !text-sm ${!isProfileEditing || isProfilePending ? "!text-sky-600 cursor-default" : "!text-sky-950"} placeholder:!text-sky-500 focus:!outline-none focus:!border-blue-500/50`}
+            labelClass="!text-[14px] !font-medium !text-slate-700"
+            inputClass={`!bg-slate-50 !border-slate-200 !rounded-[12px] !px-5 !py-3.5 !text-[14.5px] ${!isProfileEditing || isProfilePending ? "!text-slate-500 cursor-default opacity-80" : "!text-slate-800 !bg-white hover:!border-sky-300"} placeholder:!text-slate-400 focus:!outline-none focus:!border-sky-500 focus:!ring-1 focus:!ring-sky-500 !shadow-sm transition-all`}
           />
         </div>
 
@@ -276,33 +276,33 @@ const ProfileSettings = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             readOnly={true}
-            leftIcon={<Mail className="w-4 h-4" />}
-            labelClass="!text-sm !font-medium !text-sky-800"
-            inputClass="!bg-sky-50 !border-sky-200 !rounded-full !pl-12 !pr-5 !py-3.5 !text-sm !text-sky-600 cursor-not-allowed placeholder:!text-sky-500 focus:!outline-none focus:!border-transparent"
+            leftIcon={<Mail className="w-4 h-4 text-slate-400" />}
+            labelClass="!text-[14px] !font-medium !text-slate-700"
+            inputClass="!bg-slate-50 !border-slate-200 !rounded-[12px] !pl-11 !pr-5 !py-3.5 !text-[14.5px] !text-slate-500 cursor-not-allowed placeholder:!text-slate-400 focus:!outline-none !shadow-sm opacity-80"
           />
         </div>
 
-        <div className="flex flex-col sm:flex-row justify-end gap-4 mt-8">
+        <div className="flex flex-col sm:flex-row justify-end gap-4 mt-8 pt-6 border-t border-slate-100">
           {!isProfileEditing ? (
             <button
               onClick={() => setIsProfileEditing(true)}
-              className="px-10 py-2.5 rounded-full bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 text-white text-sm font-semibold shadow-md hover:shadow-lg transition-all cursor-pointer"
+              className="px-8 py-2.5 rounded-[10px] bg-white border border-slate-200 hover:border-sky-300 hover:bg-sky-50 text-slate-700 hover:text-sky-700 text-[14px] font-semibold shadow-sm transition-all cursor-pointer"
             >
-              Edit
+              Edit Profile
             </button>
           ) : (
             <>
               <button
                 onClick={() => setIsProfileEditing(false)}
                 disabled={isProfilePending}
-                className="px-8 py-2.5 rounded-full border border-sky-200 text-sm font-medium text-sky-950 hover:bg-white/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                className="px-8 py-2.5 rounded-[10px] bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 text-[14px] font-semibold shadow-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSaveProfile}
                 disabled={isProfilePending}
-                className="px-8 py-2.5 rounded-full bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 text-white text-sm font-semibold shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                className="px-8 py-2.5 rounded-[10px] bg-sky-600 hover:bg-sky-700 text-white text-[14px] font-semibold shadow-sm hover:shadow-md hover:shadow-sky-600/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               >
                 {isProfilePending && (
                   <Loader2 className="w-4 h-4 animate-spin" />
@@ -315,12 +315,12 @@ const ProfileSettings = () => {
       </div>
 
       {/* Change Password */}
-      <h2 className="text-xl font-semibold text-sky-950 mb-1">Change Password</h2>
-      <p className="text-sm text-sky-700 mb-8">
-        Update your password regularly to keep your account secure.
+      <h2 className="text-xl font-bold text-slate-800 mb-1">Change Password</h2>
+      <p className="text-[14px] text-slate-500 mb-8">
+        Update your password regularly to keep your account secure
       </p>
 
-      <div className="bg-sky-50 p-6 rounded-xl border border-sky-200 mb-8">
+      <div className="bg-white p-6 md:p-8 rounded-[24px] border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] mb-8">
         <div className="mb-6">
           <Password
             label="Current Password"
@@ -328,10 +328,10 @@ const ProfileSettings = () => {
             value={currentPassword}
             onChange={(e) => setCurrentPassword(e.target.value)}
             readOnly={!isPasswordEditing || isPasswordPending}
-            leftIcon={<Lock className="w-4 h-4" />}
-            labelClass="!text-sm !font-medium !text-sky-800"
-            inputClass={`!bg-sky-50 !border-sky-200 !rounded-full !pl-12 !pr-5 !py-3.5 !text-sm ${!isPasswordEditing || isPasswordPending ? "!text-sky-600 cursor-default" : "!text-sky-950"} placeholder:!text-sky-500 focus:!outline-none focus:!border-blue-500/50`}
-            icon="!text-sky-700 hover:!text-sky-950"
+            leftIcon={<Lock className="w-4 h-4 text-slate-400" />}
+            labelClass="!text-[14px] !font-medium !text-slate-700"
+            inputClass={`!bg-slate-50 !border-slate-200 !rounded-[12px] !pl-11 !pr-5 !py-3.5 !text-[14.5px] ${!isPasswordEditing || isPasswordPending ? "!text-slate-500 cursor-default opacity-80" : "!text-slate-800 !bg-white hover:!border-sky-300"} placeholder:!text-slate-400 focus:!outline-none focus:!border-sky-500 focus:!ring-1 focus:!ring-sky-500 !shadow-sm transition-all`}
+            icon="!text-slate-400 hover:!text-slate-600"
           />
         </div>
 
@@ -342,10 +342,10 @@ const ProfileSettings = () => {
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
             readOnly={!isPasswordEditing || isPasswordPending}
-            leftIcon={<Lock className="w-4 h-4" />}
-            labelClass="!text-sm !font-medium !text-sky-800"
-            inputClass={`!bg-sky-50 !border-sky-200 !rounded-full !pl-12 !pr-5 !py-3.5 !text-sm ${!isPasswordEditing || isPasswordPending ? "!text-sky-600 cursor-default" : "!text-sky-950"} placeholder:!text-sky-500 focus:!outline-none focus:!border-blue-500/50`}
-            icon="!text-sky-700 hover:!text-sky-950"
+            leftIcon={<Lock className="w-4 h-4 text-slate-400" />}
+            labelClass="!text-[14px] !font-medium !text-slate-700"
+            inputClass={`!bg-slate-50 !border-slate-200 !rounded-[12px] !pl-11 !pr-5 !py-3.5 !text-[14.5px] ${!isPasswordEditing || isPasswordPending ? "!text-slate-500 cursor-default opacity-80" : "!text-slate-800 !bg-white hover:!border-sky-300"} placeholder:!text-slate-400 focus:!outline-none focus:!border-sky-500 focus:!ring-1 focus:!ring-sky-500 !shadow-sm transition-all`}
+            icon="!text-slate-400 hover:!text-slate-600"
           />
           <Password
             label="Confirm New Password"
@@ -353,34 +353,34 @@ const ProfileSettings = () => {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             readOnly={!isPasswordEditing || isPasswordPending}
-            leftIcon={<Lock className="w-4 h-4" />}
-            labelClass="!text-sm !font-medium !text-sky-800"
-            inputClass={`!bg-sky-50 !border-sky-200 !rounded-full !pl-12 !pr-5 !py-3.5 !text-sm ${!isPasswordEditing || isPasswordPending ? "!text-sky-600 cursor-default" : "!text-sky-950"} placeholder:!text-sky-500 focus:!outline-none focus:!border-blue-500/50`}
-            icon="!text-sky-700 hover:!text-sky-950"
+            leftIcon={<Lock className="w-4 h-4 text-slate-400" />}
+            labelClass="!text-[14px] !font-medium !text-slate-700"
+            inputClass={`!bg-slate-50 !border-slate-200 !rounded-[12px] !pl-11 !pr-5 !py-3.5 !text-[14.5px] ${!isPasswordEditing || isPasswordPending ? "!text-slate-500 cursor-default opacity-80" : "!text-slate-800 !bg-white hover:!border-sky-300"} placeholder:!text-slate-400 focus:!outline-none focus:!border-sky-500 focus:!ring-1 focus:!ring-sky-500 !shadow-sm transition-all`}
+            icon="!text-slate-400 hover:!text-slate-600"
           />
         </div>
 
-        <div className="flex flex-col sm:flex-row justify-end gap-4 mt-8">
+        <div className="flex flex-col sm:flex-row justify-end gap-4 mt-8 pt-6 border-t border-slate-100">
           {!isPasswordEditing ? (
             <button
               onClick={() => setIsPasswordEditing(true)}
-              className="px-10 py-2.5 rounded-full bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 text-white text-sm font-semibold shadow-md hover:shadow-lg transition-all cursor-pointer"
+              className="px-8 py-2.5 rounded-[10px] bg-white border border-slate-200 hover:border-sky-300 hover:bg-sky-50 text-slate-700 hover:text-sky-700 text-[14px] font-semibold shadow-sm transition-all cursor-pointer"
             >
-              Edit
+              Edit Password
             </button>
           ) : (
             <>
               <button
                 onClick={handleCancelPassword}
                 disabled={isPasswordPending}
-                className="px-8 py-2.5 rounded-full border border-sky-200 text-sm font-medium text-sky-950 hover:bg-white/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                className="px-8 py-2.5 rounded-[10px] bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 text-[14px] font-semibold shadow-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSavePassword}
                 disabled={isPasswordPending}
-                className="px-8 py-2.5 rounded-full bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 text-white text-sm font-semibold shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                className="px-8 py-2.5 rounded-[10px] bg-sky-600 hover:bg-sky-700 text-white text-[14px] font-semibold shadow-sm hover:shadow-md hover:shadow-sky-600/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               >
                 {isPasswordPending && (
                   <Loader2 className="w-4 h-4 animate-spin" />

@@ -74,15 +74,15 @@ const CallSummary = () => {
         <div className="relative w-[180px]">
           {/* Custom icon positioning over the dropdown */}
           <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10 pointer-events-none">
-            <FileText className="w-4 h-4 text-sky-950" />
+            <FileText className="w-4 h-4 text-sky-700" />
           </div>
           <Dropdown
             placeholder="Summary"
             options={["Call Summary", "Call Transcript"]}
             onSelect={(val) => handleActionSelect(val, row)}
-            inputClass="!bg-[#1A2255] !placeholder-white !border-none !text-sky-950 !rounded-[8px] !py-2.5 !pl-11 !pr-10 !font-medium !text-[13px] !shadow-none !cursor-pointer hover:!bg-[#232D70] transition-colors"
-            optionClass="!bg-[#1A2255] !text-sky-950 !border border-[#2A3470] !rounded-[8px] !shadow-xl !mt-1.5"
-            icon="!text-sky-950 !right-3"
+            inputClass="!bg-white !placeholder-sky-800 !border !border-sky-200 !text-sky-950 !rounded-[10px] !py-2.5 !pl-10 !pr-10 !font-medium !text-[13.5px] shadow-[0_2px_10px_rgba(14,165,233,0.06)] hover:shadow-[0_4px_15px_rgba(14,165,233,0.12)] !cursor-pointer hover:!border-sky-300 transition-all"
+            optionClass="!bg-white !text-sky-950 !border !border-sky-100 !rounded-[10px] shadow-[0_10px_40px_rgba(14,165,233,0.15)] !mt-1.5 overflow-hidden z-50"
+            icon="!text-sky-500 !right-3"
           />
         </div>
       ),
@@ -109,7 +109,7 @@ const CallSummary = () => {
           <Table
             TableHeads={columns}
             TableRows={calls}
-            headClass=" border-b border-[#1A1A1A] text-gray-900 whitespace-nowrap"
+            headClass=" border-b border-slate-100 text-slate-800 whitespace-nowrap bg-slate-50/50"
             tableClass="border-none"
             wrapperClass="overflow-visible"
           />
@@ -122,20 +122,20 @@ const CallSummary = () => {
 
       {/* Dynamic Modal */}
       {modalState.isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/60 backdrop-blur-sm p-4 text-sky-950">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/20 backdrop-blur-sm p-4 text-slate-800">
           <div
-            className={`bg-sky-50 border border-[#1A1A1A] rounded-[20px] w-full relative shadow-2xl flex flex-col ${modalState.type === "Call Transcript" ? "max-w-[550px]" : "max-w-[600px]"}`}
+            className={`bg-white border border-slate-100 rounded-3xl w-full relative shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] flex flex-col ${modalState.type === "Call Transcript" ? "max-w-[600px]" : "max-w-[600px]"}`}
           >
             {/* Header */}
-            <div className="px-8 py-6 border-b border-[#1A1A1A] flex justify-between items-center">
-              <h2 className="text-[17px] font-medium text-gray-900">
+            <div className="px-8 py-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 rounded-t-3xl">
+              <h2 className="text-lg font-semibold text-slate-800">
                 {modalState.type}
               </h2>
               <button
                 onClick={() =>
                   setModalState({ isOpen: false, type: null, data: null })
                 }
-                className="text-sky-700 hover:text-sky-950 transition-colors"
+                className="text-slate-400 hover:text-slate-600 bg-white hover:bg-slate-100 p-2 rounded-full border border-slate-200 shadow-sm transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -143,29 +143,29 @@ const CallSummary = () => {
 
             {/* Call Transcript Content */}
             {modalState.type === "Call Transcript" && (
-              <div className="p-8 max-h-[500px] overflow-y-auto space-y-6 custom-scrollbar">
+              <div className="p-8 max-h-[500px] overflow-y-auto space-y-6 custom-scrollbar bg-slate-50/30">
                 {modalState.data?.transcript?.length > 0 ? (
                   modalState.data.transcript.map((msg, idx) => (
                     <div
                       key={idx}
                       className={`flex items-start gap-4 ${msg.role === "User" ? "flex-row-reverse" : ""}`}
                     >
-                      <div className="w-10 h-10 rounded-full bg-[#1A2255] flex items-center justify-center shrink-0">
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 shadow-sm ${msg.role === "AI" ? "bg-emerald-100 text-emerald-600" : "bg-sky-100 text-sky-600"}`}>
                         {msg.role === "AI" ? (
-                          <Bot className="w-5 h-5 text-emerald-400" />
+                          <Bot className="w-5 h-5" />
                         ) : (
-                          <User className="w-5 h-5 text-blue-300" />
+                          <User className="w-5 h-5" />
                         )}
                       </div>
                       <div
-                        className={`bg-[#1A1A1A] text-gray-900 px-5 py-3.5 rounded-2xl text-[15px] max-w-[80%] ${msg.role === "User" ? "rounded-tr-sm" : "rounded-tl-sm"}`}
+                        className={`px-5 py-3.5 rounded-2xl text-[15px] max-w-[80%] shadow-sm leading-relaxed ${msg.role === "User" ? "bg-gradient-to-br from-sky-500 to-blue-600 text-white rounded-tr-sm shadow-blue-500/20" : "bg-white border border-slate-100 text-slate-700 rounded-tl-sm"}`}
                       >
                         {msg.content}
                       </div>
                     </div>
                   ))
                 ) : (
-                  <div className="text-center text-sky-700">
+                  <div className="text-center text-slate-500">
                     No transcript available.
                   </div>
                 )}
@@ -176,7 +176,7 @@ const CallSummary = () => {
             {modalState.type === "Call Summary" && (
               <div className="flex flex-col">
                 <div className="p-8 max-h-[500px] overflow-y-auto custom-scrollbar">
-                  <p className="text-sky-800 text-[15px] leading-[1.8] whitespace-pre-wrap">
+                  <p className="text-slate-700 text-[15.5px] leading-relaxed whitespace-pre-wrap">
                     {modalState.data?.summary || "No summary available."}
                   </p>
                 </div>
@@ -184,10 +184,10 @@ const CallSummary = () => {
             )}
 
             {/* Footer Actions */}
-            <div className="border-t border-[#1A1A1A] px-8 py-5 flex justify-end mt-auto">
+            <div className="border-t border-slate-100 px-8 py-5 flex justify-end mt-auto bg-slate-50/50 rounded-b-3xl">
               <button
                 onClick={handleDownload}
-                className="flex items-center gap-2 bg-[#1A2255] hover:bg-[#232D70] transition-colors text-sky-950 px-6 py-2.5 rounded-[10px] text-[14px] font-medium cursor-pointer"
+                className="flex items-center gap-2 bg-white border border-slate-200 hover:border-sky-300 hover:bg-sky-50 transition-colors text-slate-700 hover:text-sky-700 px-6 py-2.5 rounded-xl text-[14px] font-semibold cursor-pointer shadow-sm"
               >
                 <Download className="w-4 h-4" />
                 Download

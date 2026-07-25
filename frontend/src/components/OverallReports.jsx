@@ -38,7 +38,7 @@ const OverallReports = ({ report }) => {
 
   return (
     <div className="w-full h-full bg-white shadow-[0_4px_20px_rgba(14,165,233,0.08)] rounded-2xl p-6 border border-sky-100 flex flex-col">
-      <h2 className="text-xl font-semibold text-sky-950 mb-8">Overall Report</h2>
+      <h3 className="text-sky-950 text-lg font-semibold mb-4">Overall Report</h3>
       
       {/* Chart Container */}
       <div className="relative flex justify-center items-center h-[260px] mb-8">

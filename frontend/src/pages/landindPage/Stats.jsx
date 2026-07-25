@@ -6,24 +6,24 @@ import Container from "@/components/Container";
 
 const problemsData = [
   {
-    icon: <PhoneOff className="w-6 h-6 text-sky-950" />,
+    icon: <PhoneOff className="w-6 h-6 text-orange-500" />,
     title: "Missed Opportunities",
     description:
       "Busy phone lines mean customers may give up and order somewhere else.",
-    bg: "bg-[#9810FA]", // Purple
+    bg: "bg-orange-500/10", 
   },
   {
-    icon: <Users className="w-6 h-6 text-sky-950" />,
+    icon: <Users className="w-6 h-6 text-red-500" />,
     title: "Staff Under Pressure",
     description:
       "Your team spends valuable time answering repetitive questions instead of focusing on service.",
-    bg: "bg-[#3B82F6]", // Blue
+    bg: "bg-red-500/10", 
   },
   {
-    icon: <TrendingUp className="w-6 h-6 text-sky-950" />,
+    icon: <TrendingUp className="w-6 h-6 text-rose-500" />,
     title: "Rising Costs",
     description: "Hiring extra staff just to manage calls is expensive.",
-    bg: "bg-[#06B6D4]", // Teal
+    bg: "bg-rose-500/10", 
   },
 ];
 
@@ -33,18 +33,18 @@ const ProblemCard = ({ problem, index }) => (
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: false, margin: "-50px" }}
     transition={{ duration: 0.5, delay: index * 0.1 }}
-    className="bg-gradient-to-b from-[#B5B9FF]/30 to-[#2B2C49]/50 border border-[#0F42FF]/40 p-6 md:p-8 rounded-[24px] flex flex-col gap-4 hover:-translate-y-1 transition-transform duration-300 shadow-lg"
+    className="bg-white dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 p-6 md:p-8 rounded-[24px] flex flex-col gap-4 hover:-translate-y-1 transition-transform duration-300 shadow-sm dark:shadow-[0_8px_30px_rgba(0,0,0,0.5)]"
   >
     <div
-      className={`${problem.bg} w-14 h-14 rounded-2xl flex items-center justify-center mb-2 shadow-md`}
+      className={`${problem.bg} w-14 h-14 rounded-2xl flex items-center justify-center mb-2 shadow-sm`}
     >
       {problem.icon}
     </div>
     <div className="flex flex-col gap-3">
-      <h3 className="text-sky-950 font-inter text-2xl font-bold tracking-tight">
+      <h3 className="text-slate-900 dark:text-white font-inter text-2xl font-bold tracking-tight">
         {problem.title}
       </h3>
-      <p className="text-[#B4B6C9] font-inter text-[16px] leading-relaxed">
+      <p className="text-slate-600 dark:text-neutral-400 font-inter text-[16px] leading-relaxed">
         {problem.description}
       </p>
     </div>
@@ -55,7 +55,7 @@ const Stats = () => {
   return (
     <section
       id="feature"
-      className="py-20 relative bg-linear-to-b from-[#59168B]/20 via-[#1C398E]/20 to-[#271436]/20"
+      className="py-20 relative bg-slate-50 dark:bg-gradient-to-b dark:from-[#140803] dark:to-neutral-950"
     >
       <Container>
         <div className="mb-14">

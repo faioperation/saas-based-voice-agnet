@@ -44,37 +44,37 @@ const CurrentPlan = () => {
   };
 
   return (
-    <div className="relative bg-white border border-[#272727] rounded-2xl p-6 mt-6 mb-12 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+    <div className="relative bg-white border border-slate-100 rounded-[24px] p-6 md:p-8 mt-6 mb-12 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
       {/* Badge */}
-      <div className="absolute -top-3.5 left-6 bg-[#131313] border border-[#272727] px-4 py-1.5 rounded-full text-xs text-sky-800 font-medium">
+      <div className="absolute -top-3.5 left-8 bg-white border border-slate-200 px-4 py-1.5 rounded-full text-[13px] text-sky-600 font-semibold shadow-sm">
         Current Plan
       </div>
 
       {/* Left Content */}
       <div className="flex flex-col gap-2 pt-2 sm:pt-0">
         <div className="flex items-center gap-4 mb-1">
-          <h2 className="text-[28px] sm:text-[32px] font-bold text-sky-950 tracking-tight leading-none">
+          <h2 className="text-[28px] sm:text-[32px] font-bold text-slate-800 tracking-tight leading-none">
             {sub?.plan?.name || "Unknown Plan"}
           </h2>
           <span
-            className={`px-2.5 py-1 rounded-full text-[11px] font-semibold uppercase tracking-wider mt-1 ${sub?.status === "active" ? "bg-green-500/10 text-green-500 border border-green-500/20" : "bg-red-500/10 text-red-500 border border-red-500/20"}`}
+            className={`px-3 py-1 rounded-full text-[12px] font-bold tracking-wide mt-1 ${sub?.status === "active" ? "bg-emerald-50 text-emerald-600 border border-emerald-200" : "bg-rose-50 text-rose-600 border border-rose-200"}`}
           >
-            {sub?.status === "active" ? "Active" : "Inactive"}
+            {sub?.status === "active" ? "ACTIVE" : "INACTIVE"}
           </span>
         </div>
-        <p className="text-[15px] text-sky-700 mb-2">
-          ${sub?.plan?.priceMonthly}/month
+        <p className="text-[15px] font-medium text-slate-500 mb-2">
+          <span className="text-slate-800 font-bold">${sub?.plan?.priceMonthly}</span>/month
         </p>
-        <div className="flex items-center gap-3 text-[14px] text-sky-700 mt-2">
+        <div className="flex items-center gap-3 text-[14px] text-slate-500 mt-2">
           <span>
             Start Date :{" "}
-            {formatDate(
+            <span className="font-medium text-slate-700">{formatDate(
               sub?.currentPeriodStart || sub?.createdAt || sub?.startDate,
-            )}
+            )}</span>
           </span>
-          <span className="w-1.5 h-1.5 rounded-full bg-gray-500"></span>
+          <span className="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
           <span>
-            End Date : {formatDate(sub?.currentPeriodEnd || sub?.endDate)}
+            End Date : <span className="font-medium text-slate-700">{formatDate(sub?.currentPeriodEnd || sub?.endDate)}</span>
           </span>
         </div>
       </div>
@@ -83,10 +83,10 @@ const CurrentPlan = () => {
       <div>
         <button
           disabled={sub?.status === "active"}
-          className={`px-8 py-2.5 rounded-xl text-sm font-medium transition-all whitespace-nowrap ${
+          className={`px-8 py-3 rounded-xl text-[14.5px] font-semibold transition-all whitespace-nowrap shadow-sm ${
             sub?.status === "active"
-              ? "border border-[#272727] bg-[#1A1A1A] text-sky-600 cursor-not-allowed"
-              : "border border-[#0F42FF] bg-sky-600 hover:bg-sky-700 text-sky-950 shadow-[0_0_15px_rgba(37,99,235,0.2)] hover:shadow-[0_0_20px_rgba(37,99,235,0.4)] cursor-pointer"
+              ? "border border-slate-200 bg-slate-50 text-slate-400 cursor-not-allowed"
+              : "border border-transparent bg-sky-600 hover:bg-sky-700 text-white hover:shadow-md hover:shadow-sky-600/20 cursor-pointer"
           }`}
         >
           Upgrade Plan

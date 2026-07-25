@@ -252,17 +252,17 @@ const PrinterManagement = () => {
 
       {/* Add Printer Modal */}
       {isAddModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/60 backdrop-blur-sm p-4 text-sky-950">
-          <div className="bg-sky-50 border border-[#1A1A1A] rounded-[20px] w-full max-w-[500px] relative shadow-2xl flex flex-col">
-            <div className="px-8 py-6 border-b border-[#1A1A1A] flex justify-between items-center">
-              <h2 className="text-[17px] font-medium text-gray-900">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/20 backdrop-blur-sm p-4 text-slate-800">
+          <div className="bg-white border border-slate-100 rounded-3xl w-full max-w-[500px] relative shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] flex flex-col">
+            <div className="px-8 py-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 rounded-t-3xl">
+              <h2 className="text-lg font-semibold text-slate-800">
                 Add New Printer
               </h2>
               <button
                 onClick={closeModals}
-                className="text-sky-700 hover:text-sky-950 transition-colors"
+                className="text-slate-400 hover:text-slate-600 bg-white hover:bg-slate-100 p-2 rounded-full border border-slate-200 shadow-sm transition-colors"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 
@@ -273,8 +273,8 @@ const PrinterManagement = () => {
                 placeholder="Enter printer name"
                 value={deviceName}
                 onChange={(e) => setDeviceName(e.target.value)}
-                labelClass="!text-sm !font-medium !text-sky-800"
-                inputClass="!w-full !bg-[#1A1A1A] !border !border-gray-800 !rounded-xl !px-4 !py-3 !text-sky-950 !placeholder-gray-500 focus:!outline-none focus:!border-[#2563EB] !transition-colors !text-sm"
+                labelClass="!text-sm !font-medium !text-slate-700"
+                inputClass="!w-full !bg-white !border !border-slate-200 !rounded-xl !px-4 !py-3 !text-slate-800 !placeholder-slate-400 hover:!border-sky-300 focus:!border-sky-500 focus:!ring-1 focus:!ring-sky-500 !transition-colors !text-[14.5px] !shadow-sm"
               />
               <InputField
                 label="Serial Number"
@@ -282,21 +282,21 @@ const PrinterManagement = () => {
                 placeholder="e.g. 00:11:62:AA:BB:CC"
                 value={serialNumber}
                 onChange={(e) => setSerialNumber(e.target.value)}
-                labelClass="!text-sm !font-medium !text-sky-800"
-                inputClass="!w-full !bg-[#1A1A1A] !border !border-gray-800 !rounded-xl !px-4 !py-3 !text-sky-950 !placeholder-gray-500 focus:!outline-none focus:!border-[#2563EB] !transition-colors !text-sm !font-mono"
+                labelClass="!text-sm !font-medium !text-slate-700"
+                inputClass="!w-full !bg-white !border !border-slate-200 !rounded-xl !px-4 !py-3 !text-slate-800 !placeholder-slate-400 hover:!border-sky-300 focus:!border-sky-500 focus:!ring-1 focus:!ring-sky-500 !transition-colors !text-[14.5px] !font-mono !shadow-sm"
               />
               <div className="pt-4 flex justify-end gap-3">
                 <button
                   type="button"
                   onClick={closeModals}
-                  className="px-5 py-2.5 rounded-xl text-sm font-medium text-sky-800 hover:bg-[#1A1A1A] transition-colors"
+                  className="px-5 py-2.5 rounded-xl text-[14px] font-semibold text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={addPrinterMutation.isPending}
-                  className="flex items-center justify-center bg-[#2563EB] hover:bg-[#1D4ED8] disabled:opacity-70 disabled:cursor-not-allowed transition-colors text-sky-950 px-6 py-2.5 rounded-xl text-sm font-medium min-w-[120px]"
+                  className="flex items-center justify-center bg-sky-600 hover:bg-sky-700 disabled:opacity-70 disabled:cursor-not-allowed transition-colors text-white px-6 py-2.5 rounded-xl text-[14px] font-semibold min-w-[120px] shadow-sm hover:shadow-md hover:shadow-sky-600/20"
                 >
                   {addPrinterMutation.isPending ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
@@ -312,17 +312,17 @@ const PrinterManagement = () => {
 
       {/* Edit Printer Modal */}
       {isEditModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/60 backdrop-blur-sm p-4 text-sky-950">
-          <div className="bg-sky-50 border border-[#1A1A1A] rounded-[20px] w-full max-w-[500px] relative shadow-2xl flex flex-col">
-            <div className="px-8 py-6 border-b border-[#1A1A1A] flex justify-between items-center">
-              <h2 className="text-[17px] font-medium text-gray-900">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/20 backdrop-blur-sm p-4 text-slate-800">
+          <div className="bg-white border border-slate-100 rounded-3xl w-full max-w-[500px] relative shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] flex flex-col">
+            <div className="px-8 py-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 rounded-t-3xl">
+              <h2 className="text-lg font-semibold text-slate-800">
                 Edit Printer Name
               </h2>
               <button
                 onClick={closeModals}
-                className="text-sky-700 hover:text-sky-950 transition-colors"
+                className="text-slate-400 hover:text-slate-600 bg-white hover:bg-slate-100 p-2 rounded-full border border-slate-200 shadow-sm transition-colors"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 
@@ -333,8 +333,8 @@ const PrinterManagement = () => {
                 placeholder="e.g. Kitchen Printer 1"
                 value={deviceName}
                 onChange={(e) => setDeviceName(e.target.value)}
-                labelClass="!text-sm !font-medium !text-sky-800"
-                inputClass="!w-full !bg-[#1A1A1A] !border !border-gray-800 !rounded-xl !px-4 !py-3 !text-sky-950 !placeholder-gray-500 focus:!outline-none focus:!border-[#2563EB] !transition-colors !text-sm"
+                labelClass="!text-sm !font-medium !text-slate-700"
+                inputClass="!w-full !bg-white !border !border-slate-200 !rounded-xl !px-4 !py-3 !text-slate-800 !placeholder-slate-400 hover:!border-sky-300 focus:!border-sky-500 focus:!ring-1 focus:!ring-sky-500 !transition-colors !text-[14.5px] !shadow-sm"
               />
               <InputField
                 label="Serial Number (Cannot be changed)"
@@ -345,21 +345,21 @@ const PrinterManagement = () => {
                   ""
                 }
                 disabled
-                labelClass="!text-sm !font-medium !text-sky-600"
-                inputClass="!w-full !bg-gray-100 !border !border-gray-800 !rounded-xl !px-4 !py-3 !text-sky-600 focus:!outline-none !transition-colors !text-sm !font-mono cursor-not-allowed !opacity-70"
+                labelClass="!text-sm !font-medium !text-slate-500"
+                inputClass="!w-full !bg-slate-50/70 !border !border-slate-200 !rounded-xl !px-4 !py-3 !text-slate-400 focus:!outline-none !text-[14.5px] !font-mono cursor-not-allowed !shadow-inner"
               />
               <div className="pt-4 flex justify-end gap-3">
                 <button
                   type="button"
                   onClick={closeModals}
-                  className="px-5 py-2.5 rounded-xl text-sm font-medium text-sky-800 hover:bg-[#1A1A1A] transition-colors"
+                  className="px-5 py-2.5 rounded-xl text-[14px] font-semibold text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={editPrinterMutation.isPending}
-                  className="flex items-center justify-center bg-[#2563EB] hover:bg-[#1D4ED8] disabled:opacity-70 disabled:cursor-not-allowed transition-colors text-sky-950 px-6 py-2.5 rounded-xl text-sm font-medium min-w-[120px]"
+                  className="flex items-center justify-center bg-sky-600 hover:bg-sky-700 disabled:opacity-70 disabled:cursor-not-allowed transition-colors text-white px-6 py-2.5 rounded-xl text-[14px] font-semibold min-w-[120px] shadow-sm hover:shadow-md hover:shadow-sky-600/20"
                 >
                   {editPrinterMutation.isPending ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
@@ -375,21 +375,21 @@ const PrinterManagement = () => {
 
       {/* Delete Confirmation Modal */}
       {isDeleteModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/60 backdrop-blur-sm p-4">
-          <div className="bg-white border border-gray-800 rounded-[20px] w-full max-w-[450px] p-8 relative shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/20 backdrop-blur-sm p-4">
+          <div className="bg-white border border-slate-100 rounded-3xl w-full max-w-[450px] p-8 relative shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)]">
             <button
               onClick={closeModals}
-              className="absolute top-6 right-6 text-sky-700 hover:text-sky-950 transition-colors cursor-pointer"
+              className="absolute top-6 right-6 text-slate-400 hover:text-slate-600 bg-white hover:bg-slate-100 p-2 rounded-full border border-slate-200 shadow-sm transition-colors cursor-pointer"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
 
-            <h2 className="text-sky-950 text-xl font-bold mb-3 text-center">
+            <h2 className="text-slate-800 text-xl font-bold mb-3 text-center">
               Delete Printer?
             </h2>
-            <p className="text-sky-700 text-[14px] leading-relaxed mb-8 text-center">
+            <p className="text-slate-600 text-[14.5px] leading-relaxed mb-8 text-center">
               Are you sure you want to delete{" "}
-              <span className="text-sky-950 font-semibold">
+              <span className="text-slate-800 font-semibold">
                 {selectedPrinter?.deviceName || selectedPrinter?.device_name}
               </span>
               ? This printer will no longer receive orders.
@@ -398,14 +398,14 @@ const PrinterManagement = () => {
             <div className="flex items-center justify-center gap-4">
               <button
                 onClick={closeModals}
-                className="bg-transparent text-sky-800 border border-gray-700 font-medium px-8 py-2.5 rounded-xl hover:bg-gray-800 transition-colors text-sm cursor-pointer"
+                className="bg-white text-slate-600 border border-slate-200 font-semibold px-8 py-2.5 rounded-xl hover:bg-slate-50 hover:text-slate-800 transition-colors text-[14px] shadow-sm cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 onClick={handleConfirmDelete}
                 disabled={deletePrinterMutation.isPending}
-                className="flex items-center justify-center bg-red-500 text-sky-950 px-8 py-2.5 rounded-xl font-medium hover:bg-red-600 disabled:opacity-70 disabled:cursor-not-allowed transition-colors text-sm cursor-pointer min-w-[100px]"
+                className="flex items-center justify-center bg-rose-500 text-white px-8 py-2.5 rounded-xl font-semibold hover:bg-rose-600 disabled:opacity-70 disabled:cursor-not-allowed transition-colors text-[14px] shadow-sm hover:shadow-md hover:shadow-rose-500/20 cursor-pointer min-w-[100px]"
               >
                 {deletePrinterMutation.isPending ? (
                   <Loader2 className="w-4 h-4 animate-spin" />
