@@ -287,7 +287,7 @@ const ViewTenant = () => {
       width: "20%",
       sortable: true,
       render: (row) => (
-        <div className="text-left text-gray-900">£{row.amount}</div>
+        <div className="text-left text-gray-900">${row.amount}</div>
       ),
     },
     {
@@ -469,7 +469,7 @@ const ViewTenant = () => {
       width: "15%",
       render: (row) => (
         <div className="text-left text-gray-900">
-          £{row.totalPrice || row.amount || 0}
+          ${row.totalPrice || row.amount || 0}
         </div>
       ),
     },
@@ -863,7 +863,7 @@ const ViewTenant = () => {
                             {selectedOrder?.time || "-"}
                           </td>
                           <td className="py-5 text-[14px] text-sky-800 text-right">
-                            £{product.unit_prize || 0}
+                            ${product.unit_prize || 0}
                           </td>
                         </tr>
                       ))
@@ -886,7 +886,7 @@ const ViewTenant = () => {
                 <div className="text-[15px] font-medium text-sky-950">
                   Total:{" "}
                   <span className="text-[#2563EB]">
-                    £{selectedOrder?.totalPrice || 0}
+                    ${selectedOrder?.totalPrice || 0}
                   </span>
                 </div>
                 <div className="flex gap-4">

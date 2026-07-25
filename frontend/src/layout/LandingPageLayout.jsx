@@ -9,6 +9,7 @@ import Demo from "@/pages/landindPage/Demo";
 import Pricing from "@/pages/landindPage/Pricing";
 import Stats from "@/pages/landindPage/Stats";
 import Contact from "@/pages/landindPage/Contact";
+import Industries from "@/pages/landindPage/Industries";
 import React from "react";
 
 
@@ -19,7 +20,8 @@ const LandingPageLayout = () => {
       <Banner />
       <Stats />
       <HowItWorks />
-      <Demo />
+      <Industries />
+      
       <Features />
       <Pricing />
       <FAQ />

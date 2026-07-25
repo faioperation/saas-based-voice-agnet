@@ -40,7 +40,7 @@ const BillingHistory = () => {
     details: inv.subscription?.plan?.name
       ? `${inv.subscription.plan.name} plan`
       : "Subscription plan",
-    amount: `£${inv.amount || inv.total || inv.amountPaid || 0}`,
+    amount: `$${inv.amount || inv.total || inv.amountPaid || 0}`,
   }));
 
   if (isLoading) {

@@ -28,7 +28,7 @@ const PlanCard = ({ plan, onUpgrade, isPendingUpgrade, isCurrentPlan }) => {
           ) : (
             <>
               <span className="text-sky-950 text-[36px] font-bold tracking-tight">
-                £{plan.priceMonthly}
+                ${plan.priceMonthly}
               </span>
               <span className="text-sky-600 text-[14px] font-medium">/month</span>
             </>

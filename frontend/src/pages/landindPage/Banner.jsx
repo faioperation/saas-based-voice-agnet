@@ -37,18 +37,16 @@ const Banner = () => {
             </motion.div>
 
             {/* Heading */}
-            <h1 className="text-3xl md:text-5xl font-bold leading-[1.1] font-inter text-center md:text-start text-slate-900 dark:text-white flex flex-col">
-              AI That Answers Calls
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] font-inter text-center md:text-start text-slate-900 dark:text-white flex flex-col gap-2">
+              A Powerful AI Voice
               <span className="bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent">
-                & Takes Orders Automatically
+                That Works Like Your Best Employee
               </span>
             </h1>
 
             {/* Subheading */}
-            <p className="text-lg md:text-xl text-slate-600 dark:text-neutral-400 font-inter text-center md:text-start">
-              Better service for your customers, Less pressure on your team,
-              FireVoice answers calls, takes orders, upsell on items and helps your
-              business save time and money
+            <p className="text-lg md:text-xl text-slate-600 dark:text-neutral-400 font-inter text-center md:text-start max-w-2xl leading-relaxed mt-2">
+              FireVoice is a next-generation AI Voice Agent SaaS platform that enables businesses to deploy intelligent, human-like AI employees in minutes. Let our AI handle incoming calls, answer inquiries, and perform real business tasks 24/7.
             </p>
 
             {/* Buttons */}

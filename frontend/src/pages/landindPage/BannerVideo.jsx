@@ -210,17 +210,17 @@ const BannerGraphic = () => {
             <div className="space-y-3 mb-4">
               <div className="flex justify-between text-xs md:text-[13px]">
                 <span className="text-slate-600 dark:text-neutral-400 font-medium">2× Burger</span>
-                <span className="text-slate-900 dark:text-white font-semibold">£60</span>
+                <span className="text-slate-900 dark:text-white font-semibold">$60</span>
               </div>
               <div className="w-full h-px bg-slate-200 dark:bg-neutral-800"></div>
               <div className="flex justify-between text-xs md:text-[13px]">
                 <span className="text-slate-600 dark:text-neutral-400 font-medium">1× Pizza</span>
-                <span className="text-slate-900 dark:text-white font-semibold">£40</span>
+                <span className="text-slate-900 dark:text-white font-semibold">$40</span>
               </div>
               <div className="w-full h-px bg-slate-200 dark:bg-neutral-800"></div>
               <div className="flex justify-between text-xs md:text-[13px]">
                 <span className="text-slate-600 dark:text-neutral-400 font-medium">1× Coke</span>
-                <span className="text-slate-900 dark:text-white font-semibold">£10</span>
+                <span className="text-slate-900 dark:text-white font-semibold">$10</span>
               </div>
             </div>
 
@@ -231,7 +231,7 @@ const BannerGraphic = () => {
                 Total
               </span>
               <span className="text-orange-500 font-bold text-sm md:text-base">
-                £110
+                $110
               </span>
             </div>
           </motion.div>
