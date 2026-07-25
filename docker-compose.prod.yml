@@ -1,0 +1,89 @@
+services:
+
+  # ═══════════════════════════════════════════════════════════════
+  # PostgreSQL Database
+  # ═══════════════════════════════════════════════════════════════
+  postgres:
+    image: postgres:16-alpine
+    container_name: firevoice_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: Fire_Voice
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d Fire_Voice"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # ═══════════════════════════════════════════════════════════════
+  # Node.js Backend
+  # ═══════════════════════════════════════════════════════════════
+  backend:
+    build:
+      context: ./Backend
+    container_name: firevoice_backend
+    restart: unless-stopped
+    env_file:
+      - ./Backend/.env
+    environment:
+      # Use docker internal networking for DB and AI
+      DATABASE_URL: postgresql://postgres:admin123@postgres:5432/Fire_Voice
+      AI_SERVICE_URL: http://ai:8001
+      BACKEND_URL: http://backend:8000
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: >
+      sh -c "npx prisma migrate deploy &&
+             node prisma/seed.js &&
+             node src/server.js"
+    volumes:
+      - uploads_data:/app/uploads
+
+  # ═══════════════════════════════════════════════════════════════
+  # Python FastAPI — AI Service
+  # ═══════════════════════════════════════════════════════════════
+  ai:
+    build:
+      context: ./ai
+    container_name: firevoice_ai
+    restart: unless-stopped
+    env_file:
+      - ./ai/.env
+    ports:
+      - "8001:8001"
+
+  # ═══════════════════════════════════════════════════════════════
+  # React Frontend — Nginx Production Build
+  # ═══════════════════════════════════════════════════════════════
+  frontend:
+    build:
+      context: ./frontend
+      # Pass the production API URL here. Change this when you have a domain!
+      # For example: https://api.yourdomain.com/api
+      # If you are not using a domain yet, use your VPS IP: http://YOUR_VPS_IP:8000/api
+      args:
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:8000/api}
+    container_name: firevoice_frontend
+    restart: unless-stopped
+    ports:
+      # Maps Nginx port 80 to host port 3000
+      - "3000:80"
+    depends_on:
+      - backend
+
+# ═══════════════════════════════════════════════════════════════
+# Named Volumes
+# ═══════════════════════════════════════════════════════════════
+volumes:
+  postgres_data:
+  uploads_data:
