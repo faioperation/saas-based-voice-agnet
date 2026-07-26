@@ -12,7 +12,7 @@ load_dotenv()
 
 EXTERNAL_BACKEND_URL = os.getenv("EXTERNAL_BACKEND_URL", "")
 
-from app.extractor import extract_text, generate_uk_restaurant_prompt, extract_business_name
+from app.extractor import extract_text, generate_clinic_prompt, extract_business_name
 from app.vapi_client import create_assistant, link_telephony, unlink_telephony
 
 from app.business_store import save_business_config, get_business_config, load_all_business_configs
@@ -23,16 +23,16 @@ def parse_single_string_item(item_str: str) -> dict:
     match = re.match(r"^(\d+)\s*x?\s*(.+)$", item_str, re.IGNORECASE)
     if match:
         quantity = match.group(1)
-        product_name = match.group(2).strip()
+        service_name = match.group(2).strip()
         return {
-            "product_name": product_name,
+            "service_name": service_name,
             "quantity": quantity,
-            "unit_prize": "0.0"
+            "service_fee": "0.0"
         }
     return {
-        "product_name": item_str,
+        "service_name": item_str,
         "quantity": "1",
-        "unit_prize": "0.0"
+        "service_fee": "0.0"
     }
 
 def normalize_list(items) -> list:
@@ -41,26 +41,25 @@ def normalize_list(items) -> list:
         items = [items]
     for item in items:
         if isinstance(item, dict):
-            product_name = item.get("product_name") or item.get("name") or item.get("item") or "Unknown Product"
+            service_name = item.get("service_name") or item.get("product_name") or item.get("name") or item.get("item") or "Unknown Service"
+            doctor_name = item.get("doctor_name") or item.get("doctor") or "Any Available"
             quantity = item.get("quantity") or item.get("qty") or item.get("count") or "1"
-            unit_prize = item.get("unit_prize") or item.get("unit_price") or item.get("price")
+            service_fee = item.get("service_fee") or item.get("unit_prize") or item.get("unit_price") or item.get("fee") or item.get("price")
 
-#           if unit_prize is not None:
-#                unit_prize = str(unit_prize)
-
-            if unit_prize is not None and str(unit_prize).strip().lower() not in ["", "unknown", "none", "null"]:
+            if service_fee is not None and str(service_fee).strip().lower() not in ["", "unknown", "none", "null"]:
                 import re
-                unit_str = str(unit_prize).strip()
-                # Clean currency symbol (e.g. £22.09 -> 22.09)
-                cleaned_price = re.sub(r"[^\d\.]", "", unit_str)
-                unit_prize = cleaned_price if cleaned_price else unit_str
+                fee_str = str(service_fee).strip()
+                # Clean currency symbol (e.g. $50.00 -> 50.00)
+                cleaned_fee = re.sub(r"[^\d\.]", "", fee_str)
+                service_fee = cleaned_fee if cleaned_fee else fee_str
             else:
-                unit_prize = "0.0"
+                service_fee = "0.0"
 
             normalized.append({
-                "product_name": str(product_name),
+                "service_name": str(service_name),
+                "doctor_name": str(doctor_name),
                 "quantity": str(quantity),
-                "unit_prize": str(unit_prize)
+                "service_fee": str(service_fee)
             })
         elif isinstance(item, str):
             parsed_item = parse_single_string_item(item)
@@ -68,27 +67,30 @@ def normalize_list(items) -> list:
                 normalized.append(parsed_item)
     return normalized
 
-def parse_and_format_order_details(order_items, total_price) -> list:
+def parse_and_format_booking_details(booking_items, total_fee) -> list:
     """
-    Parses and formats order_items into the user's requested schema:
+    Parses and formats booking_items into the structured schema:
     [
         {
-            "product_name": str,
+            "service_name": str,
+            "doctor_name": str,
             "quantity": str,
-            "unit_prize": str
+            "service_fee": str
         }
     ]
     """
-    if not order_items:
+    if not booking_items:
         return []
 
-    # Case 1: If order_items is a string, try to parse it as JSON first
-    if isinstance(order_items, str):
-        cleaned = order_items.strip()
+    # Case 1: If booking_items is a string, try to parse it as JSON first
+    if isinstance(booking_items, str):
+        cleaned = booking_items.strip()
         if (cleaned.startswith("{") and cleaned.endswith("}")) or (cleaned.startswith("[") and cleaned.endswith("]")):
             try:
                 import json
                 parsed = json.loads(cleaned)
+                if isinstance(parsed, dict) and "booking_details" in parsed:
+                    return normalize_list(parsed["booking_details"])
                 if isinstance(parsed, dict) and "order_details" in parsed:
                     return normalize_list(parsed["order_details"])
                 if isinstance(parsed, dict):
@@ -99,19 +101,21 @@ def parse_and_format_order_details(order_items, total_price) -> list:
                 pass
 
     # Case 2: If it is already a dictionary
-    if isinstance(order_items, dict):
-        if "order_details" in order_items:
-            return normalize_list(order_items["order_details"])
-        return normalize_list([order_items])
+    if isinstance(booking_items, dict):
+        if "booking_details" in booking_items:
+            return normalize_list(booking_items["booking_details"])
+        if "order_details" in booking_items:
+            return normalize_list(booking_items["order_details"])
+        return normalize_list([booking_items])
 
     # Case 3: If it is already a list
-    if isinstance(order_items, list):
-        return normalize_list(order_items)
+    if isinstance(booking_items, list):
+        return normalize_list(booking_items)
 
-    # Case 4: Unstructured string fallback (e.g., "2x Cola, 2x pizza")
+    # Case 4: Unstructured string fallback
     parsed_items = []
-    if isinstance(order_items, str):
-        parts = [p.strip() for p in order_items.replace("\n", ",").split(",") if p.strip()]
+    if isinstance(booking_items, str):
+        parts = [p.strip() for p in booking_items.replace("\n", ",").split(",") if p.strip()]
         for part in parts:
             parsed_item = parse_single_string_item(part)
             if parsed_item:
@@ -124,21 +128,19 @@ def parse_and_format_order_details(order_items, total_price) -> list:
             import openai
             client = openai.OpenAI(api_key=openai_key)
             prompt = f"""
-            You are an expert order parser. Convert the following unstructured order items string and total price into a clean, structured JSON list of objects.
+            You are an expert booking parser. Convert the following unstructured booking items string and total fee into a clean, structured JSON list of objects.
             
-            Order items string: "{order_items}"
-            Total Price of the entire order: {total_price}
+            Booking items string: "{booking_items}"
+            Total Fee: {total_fee}
             
-            For each item, extract:
-            - "product_name": Name of the item (e.g. "Cola", "Pepperoni Pizza").
-            - "quantity": Number ordered as a string (e.g. "2").
-            - "unit_prize": Price of ONE unit of this item as a string (e.g. "3.5"). If you cannot calculate it, guess a reasonable value based on the total price and items, but make sure the sum of (quantity * unit_prize) roughly equals the total price.
+            For each service, extract:
+            - "service_name": Name of the medical service or test (e.g. "General Consultation", "Blood Test").
+            - "doctor_name": The doctor's name if mentioned, otherwise "Any Available".
+            - "quantity": Number booked as a string (e.g. "1").
+            - "service_fee": Fee for this service as a string (e.g. "50.00").
             
             Respond ONLY with a valid JSON array of objects, like this:
-            [
-                {{"product_name": "Cola", "quantity": "2", "unit_prize": "3.5"}},
-                {{"product_name": "pizza", "quantity": "2", "unit_prize": "21.5"}}
-            ]
+            [{{"service_name": "General Consultation", "doctor_name": "Dr. Smith", "quantity": "1", "service_fee": "50.00"}}]
             Do not include any markdown backticks, explanations, or comments.
             """
             
@@ -164,7 +166,7 @@ def parse_and_format_order_details(order_items, total_price) -> list:
             
     return parsed_items
 
-app = FastAPI(title="Vapi AI Microservice")
+app = FastAPI(title="Clinic Voice Agent Microservice")
 
 app.add_middleware(
     CORSMiddleware,
@@ -183,73 +185,39 @@ class TelephonyLinkRequest(BaseModel):
     twilio_number: str
     manager_number: str
 
-class SpecialOffersUpdateRequest(BaseModel):
-    enabled: bool
-    special_offers_text: Optional[str] = None
-
 @app.post("/api/agents/create")
 async def create_agent(
     business_id: str = Form(...),
     rules_file: UploadFile = File(...),
-    menu_file: UploadFile = File(...),
-    special_offers_text: str = Form(""),
-    special_offers_file: Optional[UploadFile] = File(None),
-    special_offers_enabled: bool = Form(True)
+    services_file: UploadFile = File(...)
 ):
     """
-    Creates or updates a Vapi assistant.
-    Special offers are optional.
-    The extracted rules/menu/offers are saved so they can be reused later when toggling offers on/off.
+    Creates or updates a Vapi assistant for a clinic/hospital.
+    Accepts a rules file (clinic policies) and a services file (services, fees, doctors).
     """
     saved_paths = []
 
     try:
         rules_path = f"uploads/{business_id}_rules_{rules_file.filename}"
-        menu_path = f"uploads/{business_id}_menu_{menu_file.filename}"
+        services_path = f"uploads/{business_id}_services_{services_file.filename}"
 
-        saved_paths.extend([rules_path, menu_path])
+        saved_paths.extend([rules_path, services_path])
 
         with open(rules_path, "wb") as buffer:
             shutil.copyfileobj(rules_file.file, buffer)
 
-        with open(menu_path, "wb") as buffer:
-            shutil.copyfileobj(menu_file.file, buffer)
+        with open(services_path, "wb") as buffer:
+            shutil.copyfileobj(services_file.file, buffer)
 
         rules_text = extract_text(rules_path)
-        menu_text = extract_text(menu_path)
-
-        offers_parts = []
-
-        if special_offers_text and special_offers_text.strip():
-            offers_parts.append(special_offers_text.strip())
-
-        if special_offers_file and special_offers_file.filename:
-            offers_path = f"uploads/{business_id}_special_offers_{special_offers_file.filename}"
-            saved_paths.append(offers_path)
-
-            with open(offers_path, "wb") as buffer:
-                shutil.copyfileobj(special_offers_file.file, buffer)
-
-            extracted_offers = extract_text(offers_path).strip()
-
-            if extracted_offers:
-                offers_parts.append(extracted_offers)
-
-        saved_special_offers_text = "\n".join(offers_parts).strip()
-
-        active_special_offers_text = (
-            saved_special_offers_text
-            if special_offers_enabled and saved_special_offers_text
-            else ""
-        )
+        services_text = extract_text(services_path)
 
         business_name = extract_business_name(rules_text, business_id)
 
-        system_prompt = generate_uk_restaurant_prompt(
+        system_prompt = generate_clinic_prompt(
             business_id,
             rules_text,
-            menu_text,
-            special_offers_text=active_special_offers_text,
+            services_text,
             business_name=business_name
         )
 
@@ -261,9 +229,7 @@ async def create_agent(
                 "business_id": business_id,
                 "business_name": business_name,
                 "rules_text": rules_text,
-                "menu_text": menu_text,
-                "special_offers_enabled": special_offers_enabled,
-                "special_offers_text": saved_special_offers_text,
+                "services_text": services_text,
                 "assistant_id": vapi_response.get("id")
             }
         )
@@ -272,9 +238,7 @@ async def create_agent(
             "status": "success",
             "business_id": business_id,
             "assistant_id": vapi_response.get("id"),
-            "special_offers_enabled": special_offers_enabled,
-            "special_offers_active_in_prompt": bool(active_special_offers_text),
-            "message": "Agent created or updated successfully.",
+            "message": "Clinic agent created or updated successfully.",
             "vapi_response": vapi_response
         }
 
@@ -290,191 +254,20 @@ async def create_agent(
                 pass
 
 
-@app.patch("/api/agents/{business_id}/special-offers")
-async def update_special_offers(
-    business_id: str,
-    request: SpecialOffersUpdateRequest
-):
-    """
-    Turns special offers on or off.
-    This regenerates the full system prompt and updates the existing Vapi assistant.
-    """
-    try:
-        config = get_business_config(business_id)
-
-        if not config:
-            raise HTTPException(
-                status_code=404,
-                detail="Business config not found. Create the agent first using /api/agents/create."
-            )
-
-        current_saved_offers = config.get("special_offers_text", "").strip()
-
-        # If special_offers_text is provided, update the saved offer text.
-        # If it is not provided, keep the previous saved offer text.
-        if request.special_offers_text is not None:
-            saved_special_offers_text = request.special_offers_text.strip()
-        else:
-            saved_special_offers_text = current_saved_offers
-
-        # This is the important part.
-        # If enabled is false, active_special_offers_text becomes empty.
-        # Then generate_uk_restaurant_prompt() inserts "No active special offers..."
-        active_special_offers_text = (
-            saved_special_offers_text
-            if request.enabled and saved_special_offers_text
-            else ""
-        )
-
-        business_name = extract_business_name(config["rules_text"], business_id)
-
-        system_prompt = generate_uk_restaurant_prompt(
-            business_id,
-            config["rules_text"],
-            config["menu_text"],
-            special_offers_text=active_special_offers_text,
-            business_name=business_name
-        )
-
-        # Your create_assistant() already PATCHES the existing Vapi assistant
-        # if it finds the same business_id.
-        vapi_response = create_assistant(business_id, system_prompt, business_name=business_name)
-
-        config["special_offers_enabled"] = request.enabled
-        config["special_offers_text"] = saved_special_offers_text
-        config["assistant_id"] = vapi_response.get("id")
-
-        save_business_config(business_id, config)
-
-        return {
-            "status": "success",
-            "business_id": business_id,
-            "assistant_id": vapi_response.get("id"),
-            "special_offers_enabled": request.enabled,
-            "special_offers_active_in_prompt": bool(active_special_offers_text),
-            "message": (
-                "Special offers are now enabled in the assistant prompt."
-                if request.enabled
-                else "Special offers are now removed from the assistant prompt."
-            )
-        }
-
-    except HTTPException:
-        raise
-
-
-@app.post("/api/agents/upload-special-offers")
-async def upload_special_offers(
-    assistant_id: str = Form(...),
-    special_offers_file: UploadFile = File(...),
-    special_offers_text: str = Form(""),
-    special_offers_enabled: bool = Form(True)
-):
-    """
-    Uploads a special offers file (.pdf, .docx, .doc, .txt, .xlsx, .csv) for an existing Vapi assistant using assistant_id.
-    Extracts text, updates the stored business config, rebuilds the system prompt, and updates the live Vapi assistant.
-    """
-    saved_paths = []
-    try:
-        # 1. Lookup business config by assistant_id or business_id
-        configs = load_all_business_configs()
-        business_id = None
-        config = None
-        for b_id, c in configs.items():
-            if c.get("assistant_id") == assistant_id or b_id == assistant_id:
-                business_id = b_id
-                config = c
-                break
-
-        if not config:
-            raise HTTPException(
-                status_code=404,
-                detail=f"Business config not found for assistant_id or business_id '{assistant_id}'. Create the agent first using /api/agents/create."
-            )
-
-        offers_parts = []
-        if special_offers_text and special_offers_text.strip():
-            offers_parts.append(special_offers_text.strip())
-
-        if special_offers_file and special_offers_file.filename:
-            offers_path = f"uploads/{business_id}_special_offers_{special_offers_file.filename}"
-            saved_paths.append(offers_path)
-
-            with open(offers_path, "wb") as buffer:
-                shutil.copyfileobj(special_offers_file.file, buffer)
-
-            extracted_offers = extract_text(offers_path).strip()
-            if extracted_offers:
-                offers_parts.append(extracted_offers)
-
-        if not offers_parts:
-            raise HTTPException(
-                status_code=400,
-                detail="The uploaded special offers file appears to be empty or could not be read."
-            )
-
-        saved_special_offers_text = "\n\n".join(offers_parts).strip()
-        active_special_offers_text = (
-            saved_special_offers_text if special_offers_enabled else ""
-        )
-
-        rules_text = config.get("rules_text", "")
-        menu_text = config.get("menu_text", "")
-        business_name = config.get("business_name") or extract_business_name(rules_text, business_id)
-
-        system_prompt = generate_uk_restaurant_prompt(
-            business_id,
-            rules_text,
-            menu_text,
-            special_offers_text=active_special_offers_text,
-            business_name=business_name
-        )
-
-        vapi_response = create_assistant(business_id, system_prompt, business_name=business_name)
-
-        config["special_offers_enabled"] = special_offers_enabled
-        config["special_offers_text"] = saved_special_offers_text
-        config["assistant_id"] = vapi_response.get("id")
-
-        save_business_config(business_id, config)
-
-        return {
-            "status": "success",
-            "business_id": business_id,
-            "assistant_id": vapi_response.get("id"),
-            "special_offers_enabled": special_offers_enabled,
-            "special_offers_text": saved_special_offers_text,
-            "message": "Special offers file uploaded and Vapi assistant updated successfully.",
-            "vapi_response": vapi_response
-        }
-
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-    finally:
-        for path in saved_paths:
-            try:
-                if os.path.exists(path):
-                    os.remove(path)
-            except Exception:
-                pass
-
-
-@app.patch("/api/agents/menu")
-async def update_menu(
+@app.patch("/api/agents/services")
+async def update_services(
     assistant_id: str,
-    menu_file: UploadFile = File(...)
+    services_file: UploadFile = File(...)
 ):
     """
-    Updates the menu for an existing Vapi assistant.
+    Updates the services list for an existing Vapi assistant.
 
-    Accepts a new menu file (.xlsx, .pdf, .docx, .txt, .csv), extracts its text,
-    rebuilds the full system prompt using the stored rules and offers, then
+    Accepts a new services file (.xlsx, .pdf, .docx, .txt, .csv), extracts its text,
+    rebuilds the full system prompt using the stored rules, then
     PATCHes the live Vapi assistant in-place. The stored business config is also
-    updated with the new menu_text.
+    updated with the new services_text.
 
-    Rules, special offers, and the enabled/disabled offers toggle are all preserved.
+    Rules are preserved.
     """
     try:
         # --- 1. Load stored config based on assistant_id ---
@@ -493,58 +286,49 @@ async def update_menu(
                 detail=f"Business config not found for assistant_id '{assistant_id}'. Create the agent first using /api/agents/create."
             )
             
-        menu_path = f"uploads/{business_id}_menu_{menu_file.filename}"
+        services_path = f"uploads/{business_id}_services_{services_file.filename}"
 
-        # --- 2. Save and extract the new menu file ---
-        with open(menu_path, "wb") as buffer:
-            shutil.copyfileobj(menu_file.file, buffer)
+        # --- 2. Save and extract the new services file ---
+        with open(services_path, "wb") as buffer:
+            shutil.copyfileobj(services_file.file, buffer)
 
-        new_menu_text = extract_text(menu_path)
+        new_services_text = extract_text(services_path)
 
-        if not new_menu_text or not new_menu_text.strip():
+        if not new_services_text or not new_services_text.strip():
             raise HTTPException(
                 status_code=400,
-                detail="The uploaded menu file appears to be empty or could not be read."
+                detail="The uploaded services file appears to be empty or could not be read."
             )
 
-        # --- 3. Rebuild the system prompt with NEW menu, EXISTING rules & offers ---
+        # --- 3. Rebuild the system prompt with NEW services, EXISTING rules ---
         rules_text = config.get("rules_text", "")
-        special_offers_enabled = config.get("special_offers_enabled", True)
-        saved_special_offers_text = config.get("special_offers_text", "").strip()
-
-        active_special_offers_text = (
-            saved_special_offers_text
-            if special_offers_enabled and saved_special_offers_text
-            else ""
-        )
 
         business_name = extract_business_name(rules_text, business_id)
 
-        system_prompt = generate_uk_restaurant_prompt(
+        system_prompt = generate_clinic_prompt(
             business_id,
             rules_text,
-            new_menu_text,
-            special_offers_text=active_special_offers_text,
+            new_services_text,
             business_name=business_name
         )
 
         # --- 4. PATCH the Vapi assistant in-place ---
         vapi_response = create_assistant(business_id, system_prompt, business_name=business_name)
 
-        # --- 5. Persist the updated menu_text to the config store ---
-        config["menu_text"] = new_menu_text
+        # --- 5. Persist the updated services_text to the config store ---
+        config["services_text"] = new_services_text
         config["assistant_id"] = vapi_response.get("id")
         save_business_config(business_id, config)
 
-        # Short preview of the new menu for confirmation
-        menu_preview = new_menu_text.strip()[:300]
+        # Short preview of the new services for confirmation
+        services_preview = new_services_text.strip()[:300]
 
         return {
             "status": "success",
             "business_id": business_id,
             "assistant_id": vapi_response.get("id"),
-            "message": "Menu updated successfully. The assistant prompt has been refreshed with the new menu.",
-            "menu_preview": menu_preview + ("..." if len(new_menu_text.strip()) > 300 else "")
+            "message": "Services updated successfully. The assistant prompt has been refreshed with the new services list.",
+            "services_preview": services_preview + ("..." if len(new_services_text.strip()) > 300 else "")
         }
 
     except HTTPException:
@@ -559,8 +343,8 @@ async def update_menu(
 
     finally:
         try:
-            if os.path.exists(menu_path):
-                os.remove(menu_path)
+            if os.path.exists(services_path):
+                os.remove(services_path)
         except Exception:
             pass
 
@@ -602,67 +386,75 @@ async def unlink_phone(phone_number_id: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-# --- VAPI WEBHOOKS (MOVED FROM MOCK BACKEND) ---
+# --- VAPI WEBHOOKS ---
 
-def forward_order_task(business_id: str, assistant_id: str, args: dict):
+def forward_booking_task(business_id: str, assistant_id: str, args: dict):
     """Runs in the background to prevent Vapi tool timeouts"""
     if EXTERNAL_BACKEND_URL:
         try:
-            # Parse and format the order items safely in the background
-            order_details = parse_and_format_order_details(args.get("order_items"), args.get("total_price"))
+            # Parse and format the booking items safely in the background
+            booking_details = parse_and_format_booking_details(args.get("booking_details") or args.get("order_items"), args.get("total_fee") or args.get("total_price"))
             
             forward_payload = {
                 "assistantId": assistant_id,
                 "business_id": business_id,
-                "customer_name": args.get("customer_name"),
-                "customer_email": args.get("customer_email"),
-                "order_items": args.get("order_items"),  # KEEP original key for backward compatibility
-                "order_details": order_details,          # ADD new requested JSON format
-                "items": order_details,                  # ADD items key matching user requested schema
-                "total_price": args.get("total_price"),
+                "patient_name": args.get("patient_name") or args.get("customer_name"),
+                "patient_age": args.get("patient_age"),
+                "patient_phone": args.get("patient_phone"),
+                "booking_items": args.get("booking_details") or args.get("order_items"),  # KEEP original key for backward compatibility
+                "booking_details": booking_details,          # Structured JSON format
+                "services": booking_details,                 # Services key matching schema
+                "preferred_date": args.get("preferred_date"),
+                "preferred_time": args.get("preferred_time"),
+                "visit_type": args.get("visit_type"),
+                "payment_method": args.get("payment_method"),
+                "insurance_provider": args.get("insurance_provider"),
+                "total_fee": args.get("total_fee") or args.get("total_price"),
                 "source": "vapi_voice_agent"
             }
             requests.post(EXTERNAL_BACKEND_URL, json=forward_payload, timeout=5)
-            print(f" Order forwarded to {EXTERNAL_BACKEND_URL}")
+            print(f" Booking forwarded to {EXTERNAL_BACKEND_URL}")
         except Exception as e:
-            print(f" Failed to forward order: {str(e)}")
+            print(f" Failed to forward booking: {str(e)}")
 
 
-@app.post("/webhook/order")
-async def handle_order(request: Request, background_tasks: BackgroundTasks):
-    """Receives the LIVE ORDER tool call from Vapi"""
+@app.post("/webhook/booking")
+async def handle_booking(request: Request, background_tasks: BackgroundTasks):
+    """Receives the LIVE BOOKING tool call from Vapi"""
     body = await request.body()
     if not body:
         return {"status": "error", "message": "Empty request body"}
     
     data = await request.json()
-    
-    # DEBUG: Print raw data to see exactly what Vapi sends
-    # print(f"DEBUG ORDER DATA: {data}")
 
     # For apiRequest tools, Vapi sends the arguments directly in the root or inside 'message'
-    if "customer_name" in data:
+    if "patient_name" in data or "customer_name" in data:
         # This is a flat apiRequest tool call
         args = data
         business_id = "Dashboard Tool"
-        assistant_id = "Unknown" # Flat API requests usually don't send this outside headers
+        assistant_id = "Unknown"
         import json
-        formatted_details = parse_and_format_order_details(args.get("order_items"), args.get("total_price"))
-        print(f"\n---  NEW ORDER RECEIVED for {business_id} ---")
-        print(f"Customer: {args.get('customer_name')}")
-        print(f"Email: {args.get('customer_email')}")
-        print(f"Items (Raw): {args.get('order_items')}")
-        print(f"Items (Structured JSON): {json.dumps({'order_details': formatted_details}, indent=2)}")
-        print(f"Total: £{args.get('total_price')}")
+        formatted_details = parse_and_format_booking_details(args.get("booking_details") or args.get("order_items"), args.get("total_fee") or args.get("total_price"))
+        print(f"\n--- 🏥 NEW BOOKING RECEIVED for {business_id} ---")
+        print(f"Patient: {args.get('patient_name') or args.get('customer_name')}")
+        print(f"Age: {args.get('patient_age')}")
+        print(f"Phone: {args.get('patient_phone')}")
+        print(f"Services (Raw): {args.get('booking_details') or args.get('order_items')}")
+        print(f"Services (Structured JSON): {json.dumps({'booking_details': formatted_details}, indent=2)}")
+        print(f"Preferred Date: {args.get('preferred_date')}")
+        print(f"Preferred Time: {args.get('preferred_time')}")
+        print(f"Visit Type: {args.get('visit_type')}")
+        print(f"Payment: {args.get('payment_method')}")
+        print(f"Total Fee: ${args.get('total_fee') or args.get('total_price')}")
         print("-------------------------------------------\n")
 
         # Forward in background to avoid blocking Vapi
-        background_tasks.add_task(forward_order_task, business_id, assistant_id, args)
+        background_tasks.add_task(forward_booking_task, business_id, assistant_id, args)
 
         # Return explicit instructions to the LLM
         return {
             "status": "success", 
-            "result": "Order saved successfully. The kitchen has received the order. Immediately inform the customer their order is confirmed and politely say goodbye to end the call."
+            "result": "Booking saved successfully. Reception has received the appointment details. Immediately inform the patient their booking is confirmed and politely say goodbye to end the call."
         }
 
     else:
@@ -694,23 +486,28 @@ async def handle_order(request: Request, background_tasks: BackgroundTasks):
             business_id = message.get("customer", {}).get("metadata", {}).get("business_id", "Unknown")
 
             import json
-            formatted_details = parse_and_format_order_details(args.get("order_items"), args.get("total_price"))
-            print(f"\n--- 🍕 NEW ORDER RECEIVED for {business_id} ---")
+            formatted_details = parse_and_format_booking_details(args.get("booking_details") or args.get("order_items"), args.get("total_fee") or args.get("total_price"))
+            print(f"\n--- 🏥 NEW BOOKING RECEIVED for {business_id} ---")
             print(f"Assistant ID: {assistant_id}")
-            print(f"Customer: {args.get('customer_name')}")
-            print(f"Email: {args.get('customer_email')}")
-            print(f"Items (Raw): {args.get('order_items')}")
-            print(f"Items (Structured JSON): {json.dumps({'order_details': formatted_details}, indent=2)}")
-            print(f"Total: £{args.get('total_price')}")
+            print(f"Patient: {args.get('patient_name') or args.get('customer_name')}")
+            print(f"Age: {args.get('patient_age')}")
+            print(f"Phone: {args.get('patient_phone')}")
+            print(f"Services (Raw): {args.get('booking_details') or args.get('order_items')}")
+            print(f"Services (Structured JSON): {json.dumps({'booking_details': formatted_details}, indent=2)}")
+            print(f"Preferred Date: {args.get('preferred_date')}")
+            print(f"Preferred Time: {args.get('preferred_time')}")
+            print(f"Visit Type: {args.get('visit_type')}")
+            print(f"Payment: {args.get('payment_method')}")
+            print(f"Total Fee: ${args.get('total_fee') or args.get('total_price')}")
             print("-------------------------------------------\n")
 
             # Forward in background to avoid blocking Vapi
-            background_tasks.add_task(forward_order_task, business_id, assistant_id, args)
+            background_tasks.add_task(forward_booking_task, business_id, assistant_id, args)
 
             # Return explicit instructions to the LLM
             results.append({
                 "toolCallId": tool_call.get("id"),
-                "result": "Order saved successfully. The kitchen has received the order. Immediately inform the customer their order is confirmed and politely say goodbye to end the call."
+                "result": "Booking saved successfully. Reception has received the appointment details. Immediately inform the patient their booking is confirmed and politely say goodbye to end the call."
             })
             
         return {"results": results}
@@ -734,7 +531,7 @@ async def handle_summary(request: Request):
     business_id = call_data.get("metadata", {}).get("business_id", "Unknown")
     structured_data = analysis.get("structuredData")
 
-    print(f"\n---  FINAL CALL SUMMARY for {business_id} ---")
+    print(f"\n--- 📋 FINAL CALL SUMMARY for {business_id} ---")
     print(f"AI Summary: {summary}")
     if structured_data:
         import json
@@ -756,9 +553,9 @@ async def vapi_tool_fallback(request: Request, background_tasks: BackgroundTasks
     message = data.get("message", {})
     msg_type = message.get("type", data.get("type", ""))
 
-    if msg_type == "tool-calls" or "toolCalls" in message or "toolWithToolCallList" in message or "customer_name" in data:
-        # Route to Order Logic
-        return await handle_order(request, background_tasks)
+    if msg_type == "tool-calls" or "toolCalls" in message or "toolWithToolCallList" in message or "patient_name" in data or "customer_name" in data:
+        # Route to Booking Logic
+        return await handle_booking(request, background_tasks)
     elif msg_type in ["end-of-call-report", "status-update", "hang-up"]:
         # Route to Summary Logic
         return await handle_summary(request)

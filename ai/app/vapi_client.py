@@ -54,7 +54,7 @@ def create_assistant(business_id: str, system_prompt: str, business_name: str = 
 
     payload = {
         "name": business_id, # Exactly the name you provide
-        "firstMessage": f"Hi, you're through to {display_name} and I'm their virtual assistant. Would you like to place an order?",
+        "firstMessage": f"Hi, you're through to {display_name} and I'm FireVoice, their virtual assistant. How can I help you today?",
         "metadata": {
             "business_id": business_id
         },
@@ -75,12 +75,12 @@ def create_assistant(business_id: str, system_prompt: str, business_name: str = 
                     "messages": [
                         {
                             "type": "request-start",
-                            "content": f"Thanks for calling {display_name}. Have a great day and enjoy your meal!"
+                            "content": f"Thanks for calling {display_name}. We look forward to seeing you!"
                         }
                     ],
                     "function": {
                         "name": "endCall",
-                        "description": "Ends the phone call. Invoke this tool immediately when the order is complete or the conversation naturally ends. Do NOT say goodbye yourself, just trigger this tool."
+                        "description": "Ends the phone call. Invoke this tool immediately when the appointment is booked or the conversation naturally ends. Do NOT say goodbye yourself, just trigger this tool."
                     }
                 }
             ]
@@ -93,7 +93,7 @@ def create_assistant(business_id: str, system_prompt: str, business_name: str = 
         "transcriber": {
             "provider": "deepgram",
             "model": "nova-2",
-            "language": "en-GB"
+            "language": "en"
         },
         "analysisPlan": {
             "summaryPlan": {
@@ -101,7 +101,7 @@ def create_assistant(business_id: str, system_prompt: str, business_name: str = 
                 "messages": [
                     {
                         "role": "system",
-                        "content": "Provide a concise summary of the call. Include the customer's name, their mood, what they ordered, the total price of the order, payment method chosen, and if the order was successfully handled."
+                        "content": "Provide a concise summary of the call. Include the patient's name, their mood, what service or appointment they booked, which doctor (if specified), preferred date and time, visit type (in-person or telehealth), total fee, payment method chosen, and if the booking was successfully handled."
                     },
                     {
                         "role": "user",
@@ -113,31 +113,35 @@ def create_assistant(business_id: str, system_prompt: str, business_name: str = 
                 "schema": {
                     "type": "object",
                     "properties": {
-                        "items": {
+                        "services": {
                             "type": "array",
                             "items": {
                                 "type": "object",
                                 "properties": {
-                                    "quantity": {"type": "string"},
-                                    "unit_prize": {"type": "string"},
-                                    "product_name": {"type": "string"}
+                                    "service_name": {"type": "string"},
+                                    "doctor_name": {"type": "string"},
+                                    "service_fee": {"type": "string"}
                                 },
-                                "required": ["quantity", "unit_prize", "product_name"]
+                                "required": ["service_name", "doctor_name", "service_fee"]
                             }
                         },
-                        "total_price": {"type": "number"},
-                        "order_status": {"type": "string", "enum": ["completed", "abandoned", "in_progress"]},
-                        "customer_name": {"type": "string"},
-                        "payment_method": {"type": "string", "enum": ["cash", "card", "unknown"]},
-                        "delivery_type": {"type": "string", "enum": ["pickup", "delivery"]},
-                        "delivery_address": {"type": "string"}
+                        "total_fee": {"type": "number"},
+                        "booking_status": {"type": "string", "enum": ["confirmed", "cancelled", "pending"]},
+                        "patient_name": {"type": "string"},
+                        "patient_age": {"type": "string"},
+                        "patient_phone": {"type": "string"},
+                        "payment_method": {"type": "string", "enum": ["cash", "card", "insurance", "unknown"]},
+                        "insurance_provider": {"type": "string"},
+                        "visit_type": {"type": "string", "enum": ["in_person", "telehealth"]},
+                        "preferred_date": {"type": "string"},
+                        "preferred_time": {"type": "string"}
                     },
-                    "required": ["items", "total_price", "order_status", "customer_name", "delivery_type", "delivery_address"]
+                    "required": ["services", "total_fee", "booking_status", "patient_name", "patient_age", "visit_type", "preferred_date", "preferred_time"]
                 },
                 "messages": [
                     {
                         "role": "system",
-                        "content": "Extract the final order details for database logging. For each item in 'items', extract 'product_name', 'quantity' (as a string), and 'unit_prize' (the price of ONE unit as a decimal string, e.g. '22.09', '24.10', '5.83'). Look at the individual item prices spoken or recited in the transcript. Do NOT output 'unknown' or '0.0' for unit_prize. If an item price was spoken in words like 'five pounds and eighty-three pence', output '5.83'. For 'total_price', DO NOT attempt to calculate it yourself; output the final total price stated by the assistant to the customer. The delivery_type MUST be exactly 'pickup' or 'delivery'. If delivery_type is 'delivery', extract the 'delivery_address' from the transcript. If it's 'pickup', set 'delivery_address' to 'N/A' or an empty string.\n\nJson Schema:\n{{schema}}\n\nOnly respond with the JSON."
+                        "content": "Extract the final appointment booking details for database logging. For each service in 'services', extract 'service_name' (the medical service or test booked), 'doctor_name' (the doctor's name, or 'Any Available' if not specified), and 'service_fee' (the fee as a decimal string, e.g. '50.00', '35.00'). Look at the individual fees spoken or recited in the transcript. Do NOT output 'unknown' or '0.0' for service_fee. If a fee was spoken in words like 'fifty dollars', output '50.00'. For 'total_fee', output the final total stated by the assistant. The visit_type MUST be exactly 'in_person' or 'telehealth'. Extract 'patient_name', 'patient_age', 'patient_phone', 'preferred_date', 'preferred_time', 'payment_method', and 'insurance_provider' (empty string if not applicable) from the transcript.\n\nJson Schema:\n{{schema}}\n\nOnly respond with the JSON."
                     },
                     {
                         "role": "user",
@@ -222,12 +226,12 @@ def link_telephony(assistant_id: str, twilio_number: str, manager_number: str) -
                     {
                         "type": "number",
                         "number": manager_number,
-                        "message": "Please hold while I transfer you to the restaurant."
+                        "message": "Please hold while I transfer you to reception."
                     }
                 ],
                 "function": {
-                    "name": "transferToManager",
-                    "description": "Transfers the call to the restaurant immediately. Invoke this tool without asking why when: the customer asks to speak to a human, a person, or a manager; the customer makes a complaint; the customer reports a missing item or requests a refund; the customer is unhappy or frustrated; the customer has chosen card payment and the order has been saved."
+                    "name": "transferToReception",
+                    "description": "Transfers the call to reception or front desk immediately. Invoke this tool without asking why when: the caller asks to speak to a human, a person, or a receptionist; the caller has a medical emergency; the caller makes a complaint; the caller asks about test results or medical records; the caller requests a refund or disputes a billing issue; the caller is unhappy or frustrated; the caller has chosen card payment and the booking has been saved."
                 }
             }
             tool_res = requests.post(tool_url, headers=HEADERS, json=tool_payload)

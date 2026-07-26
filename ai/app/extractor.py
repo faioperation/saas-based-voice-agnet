@@ -111,31 +111,21 @@ def extract_business_name(rules_text: str, fallback_name: str = "") -> str:
     return fallback_name
 
 
-def generate_uk_restaurant_prompt(
+def generate_clinic_prompt(
     business_id: str,
     business_rules: str,
     menu_text: str,
-    special_offers_text: str = "",
     business_name: str = ""
 ) -> str:
     """
-    Generates a UK restaurant system prompt.
-    If special offers are empty, the assistant is told that no offers are active.
+    Generates a clinic/hospital system prompt.
     Uses business_name (extracted from scripts) for customer-facing references.
     """
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    prompt_path = os.path.join(base_dir, "uk_system_prompt.txt")
+    prompt_path = os.path.join(base_dir, "clinic_system_prompt.txt")
 
     with open(prompt_path, "r", encoding="utf-8") as f:
         prompt_template = f.read()
-
-    cleaned_special_offers = (special_offers_text or "").strip()
-
-    if not cleaned_special_offers:
-        cleaned_special_offers = (
-            "No active special offers are currently configured. "
-            "Do not mention, create, suggest, or apply any special offers, discounts, bundles, free drinks, meal deals, or collection discounts."
-        )
 
     # Use business_name if provided, otherwise fall back to business_id
     resolved_name = business_name if business_name else business_id
@@ -143,10 +133,10 @@ def generate_uk_restaurant_prompt(
     prompt = prompt_template.format(
         business_rules=business_rules,
         menu_text=menu_text,
-        special_offers_text=cleaned_special_offers,
         business_name=resolved_name
     )
 
-    prompt += f"\n\nCRITICAL INSTRUCTION FOR ENDING THE CALL:\nWhen the order is finalized or the conversation is naturally over, you MUST IMMEDIATELY invoke the endCall tool. Do NOT say goodbye yourself. Do NOT generate any text response. Just trigger the tool directly."
+    prompt += f"\n\nCRITICAL INSTRUCTION FOR ENDING THE CALL:\nWhen the appointment is booked or the conversation is naturally over, you MUST IMMEDIATELY invoke the endCall tool. Do NOT say goodbye yourself. Do NOT generate any text response. Just trigger the tool directly."
 
     return prompt
+
