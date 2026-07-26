@@ -13,7 +13,7 @@ def _ensure_store_exists():
         with open(DATA_FILE, "w", encoding="utf-8") as f:
             json.dump({}, f, indent=2)
 
-
+###comment
 def load_all_business_configs() -> Dict[str, Any]:
     _ensure_store_exists()
 
